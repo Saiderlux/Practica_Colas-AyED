@@ -103,3 +103,35 @@ void limpiarLinea(int x, int y){
 	MoverCursor(x-3,y);
 	printf("%s", aux);
 }
+
+
+void imprimirFilasInicio(cola cajera[], int n) {
+    int i, j, x, y;
+    char aux[100];
+    for (i = 0; i < n; i++) {
+        y = INICIO_Y;
+        for (j = 1; j <= Size(&cajera[i]); j++) {
+            x = i * TAM_COLUMNA;
+            sprintf(aux, "%d", Element(&cajera[i], j).n);
+            MoverCursor(x - ((int)strlen(aux) / 2), y);
+            printf("%s", aux);
+            y += TAM_FILA;
+        }
+    }
+}
+
+void imprimirFilas(cola cajera[], int n) {
+    int i, j, x, y;
+    char aux[100];
+    BorrarPantalla();
+    for (i = 0; i < n; i++) {
+        y = INICIO_Y;
+        for (j = 1; j <= Size(&cajera[i]); j++) {
+            x = i * TAM_COLUMNA;
+            sprintf(aux, "%d", Element(&cajera[i], j).n);
+            MoverCursor(x - ((int)strlen(aux) / 2), y);
+            printf("%s", aux);
+            y += TAM_FILA;
+        }
+    }
+}

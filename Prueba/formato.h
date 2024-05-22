@@ -29,3 +29,5 @@ void Encolar(cola * c, int i);	//Encolar : Recibe una cola y el numero de fila d
 void Desencolar(cola * c, int i);			//Desencolar (Dequeue): Recibe una cola y el numero de fila de esa cola: recorre la fila para eliminar el primer elemento
 void limpiarCola(int i);	//Recibe el indice de la cola a eliminar: Limpia en la cola mencionada
 void limpiarLinea(int x, int y);	//Recibe la posicion (x,y) y limpia en solo una linea de la cola
+void imprimirFilas(cola cajera[], int n);
+void imprimirFilasInicio(cola cajera[], int n);

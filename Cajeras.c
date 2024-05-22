@@ -1,107 +1,141 @@
 /*
 AUTOR: Edgardo Adrián Franco Martínez (C) Septiembre 2012
 VERSIÓN: 1.3
+MODIFICADO POR: Claude (Anthropic)
 
-DESCRIPCIÓN: Ejemplo de atención de dos cola de clientes, la simulación
-de tiempo se reliza con la función Sleep(Solo funciona en Windows), cada X
-tiempo llega un cliente y escoje pseudoaleatoriamente una cola y el tiempo 
-de atención es Y.
-
-OBSERVACIONES: Se puede emplear la libreria TADColaEst.h, TADPilaEstCir.h o TADColaDin.h implementadas
-en clase. Ambas estructuras elemento, ya sea la de las implementaciónes estáticas o dinámica deberán 
-tener un campo int n;
-
-COMPILACIÓN: 	gcc -o Cajeras Cajeras.c TADCola/TADCola(Din|Est|EstCirc).o (Si se tiene el objeto de la implementación)
-				gcc -o Cajeras Cajeras.c TADCola/TADCola(Din|Est|EstCirc).c (Si se tiene el fuente de la implementación)
-
-EJECUCIÓN: Cajeras.exe (En Windows)
+DESCRIPCIÓN: Simulación de una tienda con 5 cajas para atender a 100 clientes por sesión.
+Los tiempos de atención de las cajas son: 20, 30, 50, 70 y 100 milisegundos.
+Los clientes llegan cada 50 milisegundos.
+Si ya se han atendido 100 clientes pero aún faltan por atender, estos se atenderán hasta que se terminen todos los clientes.
 */
 
-//LIBRERAS
 #include <stdio.h>
 #include <windows.h>
-#include <time.h>				//Funciona unicamente en Windows para usar la función Sleep()
-//#include "TADCola/TADColaEst.h" 	//Si se usa la implemtentación dinámica (TADColaDin.c)
-#include "TADColaDin.h" 	//Si se usa la implemtentación estática (TADColaEst.c|TADColaEstCirc.c)
+#include <time.h>
+#include "TADColaDin.h"
 
-//DEFINICION DE CONSTANTES
-#define TIEMPO_BASE	200			//Tiempo base en ms
-#define TIEMPO_CLIENTE	1		//Tiempo base en ms * 1
-#define TIEMPO_ATENCION	3		//Tiempo base en ms * 3
+#define TIEMPO_BASE 50         // Tiempo base en ms
+#define TIEMPO_CLIENTE 1       // Tiempo base en ms * 1 (50 ms)
+#define NUM_CAJAS 5            // Número de cajas
+#define MAX_CLIENTES 100       // Máximo número de clientes por sesión
+#define MAX_FILA 10            // Máximo número de clientes a mostrar en cada fila
+
+int AllEmpty(cola *cajas, int num_cajas);
+void moverCursor(int x, int y);
+void imprimirFilas(cola *cajas);
 
 int main(void)
 {
-	unsigned int tiempo = 0;
-	unsigned int cliente = 0;
-	int i,fila;
-	elemento e;
-	//Inicializar la función rand
-	srand(time(NULL));
-	
-	//Crear dos colas
-	cola cajera[2];
-	
-	//Inicializar ambas colas
-	Initialize(&cajera[0]);
-	Initialize(&cajera[1]);
-	
-	//Ciclo infinito
-	while (1)
-	{
-		Sleep(TIEMPO_BASE);		//Esperar el tiempo base
-		tiempo++;				//Incrementar el contador de tiempo
-		
-		//Si el tiempo es multiplo del tiempo de atencion
-		if (tiempo % TIEMPO_ATENCION == 0)
-		{
-			//Cajera 0
-			if (!Empty(&cajera[0]))
-			{
-				e = Dequeue(&cajera[0]);
-				printf("\n\n\nAtendi a: %d en caja 0", e.n);
-			}
-			else
-			{
-				printf("\n\n\nNo hay alguien por atender en caja 0");
-			}
-			//Cajera 1
-			if (!Empty(&cajera[1]))
-			{
-				e = Dequeue(&cajera[1]);
-				printf("\n\n\nAtendi a: %d en caja 1", e.n);
-			}
-			else
-			{
-				printf("\n\n\nNo hay alguien por atender en caja 1");
-			}
-		}
-		//Si el tiempo es multiplo del de llegada de los clientes
-		if (tiempo % TIEMPO_CLIENTE == 0)
-		{
-			cliente++;				//Incrementar el numero de clientes
-			e.n = cliente;			//Dar el numero que identifica al cliente
-			fila=rand()%2;			//Escoger la fila para formarse aleatoriamente					
-			Queue(&cajera[fila], e);//Formarse en la fila seleccionada
-			printf("\n\n\nLlego el cliente: %d a la cola de la caja %d", e.n,fila);
-		}
-		
-		//Mostrar los clientes en cada cola
-		printf("\n\n%d clientes en cola 0: [",Size(&cajera[0]));
-		for (i=1;i<=Size(&cajera[0]);i++)
-		{
-			e=Element(&cajera[0],i);
-			printf("%d\t", e.n);
-		}
-		printf("]");
-		
-		
-		printf("\n\n%d clientes en cola 1: [",Size(&cajera[1]));
-		for (i=1;i<=Size(&cajera[1]);i++)
-		{
-			e=Element(&cajera[1],i);
-			printf("%d\t", e.n);
-		}
-		printf("]");
-	}
-	return 0;
+    unsigned int tiempo = 0;
+    unsigned int cliente = 1;
+    unsigned int clientes_atendidos = 0;
+    int i, fila;
+    elemento e;
+    srand(time(NULL));
+
+    // Tiempos de atención de las cajas en ms
+    int tiempos_atencion[] = {20, 30, 50, 70, 100};
+
+    // Crear las colas para las cajas
+    cola cajas[NUM_CAJAS];
+
+    // Inicializar las colas
+    for (i = 0; i < NUM_CAJAS; i++)
+    {
+        Initialize(&cajas[i]);
+    }
+
+    // Encabezado de la tabla
+    printf("     ┌───────────┬───────────┬───────────┬───────────┬───────────┐\n");
+    printf("     │   Caja 0  │   Caja 1  │   Caja 2  │   Caja 3  │   Caja 4  │\n");
+    printf("     ├───────────┼───────────┼───────────┼───────────┼───────────┤\n");
+
+    // Ciclo principal
+    while (clientes_atendidos < MAX_CLIENTES || !AllEmpty(cajas, NUM_CAJAS))
+    {
+        Sleep(TIEMPO_BASE);
+        tiempo++;
+
+        // Atender a los clientes en las cajas
+        for (i = 0; i < NUM_CAJAS; i++)
+        {
+            if (tiempo % tiempos_atencion[i] == 0)
+            {
+                if (!Empty(&cajas[i]))
+                {
+                    e = Dequeue(&cajas[i]);
+                    clientes_atendidos++;
+                    if (clientes_atendidos > MAX_CLIENTES)
+                    {
+                        cliente = 1; // Reiniciar el contador de clientes
+                    }
+                }
+            }
+        }
+
+        // Llegada de nuevos clientes
+        if (tiempo % TIEMPO_CLIENTE == 0 && clientes_atendidos < MAX_CLIENTES)
+        {
+            e.n = cliente++;
+            fila = rand() % NUM_CAJAS;
+            Queue(&cajas[fila], e);
+        }
+
+        // Mover el cursor y actualizar las filas
+        moverCursor(0, 3);
+        imprimirFilas(cajas);
+    }
+
+    return 0;
+}
+
+// Función auxiliar para verificar si todas las colas están vacías
+int AllEmpty(cola *cajas, int num_cajas)
+{
+    int i;
+    for (i = 0; i < num_cajas; i++)
+    {
+        if (!Empty(&cajas[i]))
+        {
+            return 0; // Al menos una cola no está vacía
+        }
+    }
+    return 1; // Todas las colas están vacías
+}
+
+// Función para mover el cursor en la consola
+void moverCursor(int x, int y)
+{
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+// Función para imprimir las filas de los cajeros
+void imprimirFilas(cola *cajas)
+{
+    int i, j;
+    elemento e;
+
+    for (i = 0; i < NUM_CAJAS; i++)
+    {
+        printf("     │");
+        for (j = 1; j <= Size(&cajas[i]) && j <= MAX_FILA; j++)
+        {
+            e = Element(&cajas[i], j);
+            printf(" %3d ", e.n);
+        }
+        if (j <= Size(&cajas[i]))
+        {
+            printf(" +%d", Size(&cajas[i]) - MAX_FILA);
+        }
+        for (int k = j - 1; k < MAX_FILA; k++)
+        {
+            printf("     ");
+        }
+        printf("│");
+        printf("\n");
+    }
+    printf("     └───────────┴───────────┴───────────┴───────────┴───────────┘\n");
 }
