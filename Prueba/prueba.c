@@ -9,7 +9,8 @@ Trate de hacerlo de forma en que todo lo relacionado a como se impriman las cola
 //LIBRERAS
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
+//#include <windows.h>
+#include <unistd.h>  
 #include "TADColaDin.h"
 #include "formato.h"
 #include "presentacion.h"
