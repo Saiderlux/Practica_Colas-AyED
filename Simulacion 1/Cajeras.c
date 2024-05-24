@@ -22,6 +22,14 @@ Otra cosa esto es solo la logica de como podría funcionar solo faltaría que se
 
 //DEFINICION DE CONSTANTES
 #define TIEMPO_BASE	200			//Tiempo base en ms
+#define TAM_MAX_X	100			//Tamaño de la pantalla en X
+#define Y_CAJAS	3			//Tamaño de la pantalla en X
+
+//DEFINICION DE FUNCIONES
+int calcularPosicionX(int columna, int n_columnas);
+int colocarCajas(int i, int x);
+
+
 int main(void)
 {
 	char nombre[100];
@@ -51,6 +59,10 @@ int main(void)
 	
 	BorrarPantalla();
 	
+	for(i=1;i<=n;i++){ //Imprimir las cajas
+		colocarCajas(i, calcularPosicionX(i,n));
+	}
+	
 	//Ciclo infinito
 	while (1)
 	{
@@ -62,7 +74,7 @@ int main(void)
 				if (!Empty(&cajera[i]))
 				{
 					e = Dequeue(&cajera[i]);
-					Desencolar(&cajera[i], i+1);
+					Desencolar(&cajera[i], calcularPosicionX(i+1,n));
 				}
 			}
 		}
@@ -72,8 +84,29 @@ int main(void)
 			e.n = cliente;			//Dar el numero que identifica al cliente
 			fila=rand()%n;			//Escoger la fila para formarse aleatoriamente					
 			Queue(&cajera[fila], e);//Formarse en la fila seleccionada
-			Encolar(&cajera[fila], fila+1);
+			Encolar(&cajera[fila], calcularPosicionX(fila+1, n));
 		}
 	}
 	return 0;
+}
+
+int calcularPosicionX(int columna, int n_columnas) {
+    
+    // Calcular el ancho de cada columna
+    int ancho_columna = TAM_MAX_X / (n_columnas+1);
+    
+    // Calcular la posición x de la columna específica
+    int posicion_x = ancho_columna * columna ;
+    
+    return posicion_x;
+}
+
+int colocarCajas(int i, int x){
+	char aux[20], resultado_str[2];
+	sprintf(resultado_str, "%d", i);
+	strcpy(aux, "[ ");
+	strcat(aux, resultado_str);
+	strcat(aux, " ]");
+	MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS);
+	printf("%s", aux);
 }
