@@ -29,6 +29,7 @@ typedef struct proceso {
     char id[45]; 
     char descripcion[200];
     int tiempo_ejecucion;
+	int tiempo_real;
 } proceso;
 
 
