@@ -20,11 +20,6 @@ Otra cosa esto es solo la logica de como podría funcionar solo faltaría que se
 #include "formato.h"
 #include "presentacion.h"
 
-//DEFINICION DE CONSTANTES
-#define TIEMPO_BASE	10			//Tiempo base en ms
-#define TAM_MAX_X	100			//Tamaño de la pantalla en X
-#define Y_CAJAS	3			//Tamaño de la pantalla en X
-
 // DEFINICION DE CONSTANTES
 #define TIEMPO_BASE    200    // Tiempo base en ms
 #define TAM_MAX_X    100    // Tamaño de la pantalla en X
