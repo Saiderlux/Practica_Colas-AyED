@@ -17,7 +17,8 @@ durante la ejecución del programa.
 
 #include <string.h>
 #include "TADColaDin.h"
-#include <windows.h>
+//#include <windows.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "formato.h"
