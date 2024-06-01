@@ -68,7 +68,7 @@ void imprimir_colas() {
 
 //Función para imprimir el proceso en ejecución
 void mostrarProceso(proceso e){
-	char aux[100], resultado_str[45];
+	char aux[100], resultado_str[100];
 	for(int i=0;i<3;i++){
 		limpiarLinea(POS_PROCESO, 3+i);
 	}
