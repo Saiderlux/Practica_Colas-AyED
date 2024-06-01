@@ -28,8 +28,7 @@ durante la ejecución del programa.
 #define TRUE	1
 #define FALSE	0
 #define DEFAULT	5
-#define TAM_FILA	2
-//#define TAM_COLUMNA	10
+#define TAM_FILA	4
 #define INICIO_Y 5
 
 //DEFINICIONES DE TIPOS DE DATO
@@ -41,13 +40,33 @@ typedef unsigned char boolean;
 //DECLARACIÓN DE FUNCIONES
 void Encolar(cola * c, int x){//Encolar : Recibe una cola e imprime la cola con el nuevo elemento
 	int tamano = Size(c);
-	char aux[100], resultado_str[20];
+	char aux[100], resultado_str[50];
 	int y = INICIO_Y;
 	if(tamano < DEFAULT){
 		y+=tamano * TAM_FILA;
 		proceso e = Final(c);
-		sprintf(aux, "%s: %s - %d",e.id, e.nombre, e.tiempo_ejecucion);
-		MoverCursor(x-((int)strlen(aux)/2),y);
+		//Imprimir ID y NOMBRE
+		sprintf(aux, "%s: %s",e.id, e.nombre);
+		if(strlen(aux) <= 50){
+			MoverCursor(x-((int)strlen(aux)/2),y);
+			printf("%s", aux);
+		}else{
+			MoverCursor(x-25,y);
+			printf("%.47s...", aux);
+		}
+		//Imprimir DESCRIPCIÓN
+		sprintf(aux, "Descripción: %s",e.descripcion);
+		if(strlen(aux) <= 50){
+			MoverCursor(x-((int)strlen(aux)/2),y+1);
+			printf("%s", aux);
+		}else{
+			MoverCursor(x-25,y+1);
+			printf("%.47s...", aux);
+		}
+		//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
+		sprintf(aux, "Tiempo restante: %d",e.tiempo_ejecucion);
+		MoverCursor(x-((int)strlen(aux)/2),y+2);
+		printf("%s", aux);
 	}else{
 		y += DEFAULT*TAM_FILA;
 		limpiarLinea(x,y);
@@ -56,8 +75,8 @@ void Encolar(cola * c, int x){//Encolar : Recibe una cola e imprime la cola con 
 		strcpy(aux, "+ ");
 		strcat(aux, resultado_str);
 		MoverCursor(x-((int)strlen(aux)/2),y);
+		printf("%s", aux);
 	}
-	printf("%s", aux);
 }
 
 void Desencolar(cola * c, int x){//Desencolar (Dequeue): Recibe una cola y recorre la fila para eliminar el primer elemento
@@ -71,8 +90,27 @@ void Desencolar(cola * c, int x){//Desencolar (Dequeue): Recibe una cola y recor
 		for(i=1;i<=tamano;i++){
 			y+=TAM_FILA;
 			e = Element(c, i);
-			sprintf(aux, "%s: %s - %d",e.id, e.nombre, e.tiempo_ejecucion);
-			MoverCursor(x-((int)strlen(aux)/2),y);
+			//Imprimir ID y NOMBRE
+			sprintf(aux, "%s: %s",e.id, e.nombre);
+			if(strlen(aux) <= 50){
+				MoverCursor(x-((int)strlen(aux)/2),y);
+				printf("%s", aux);
+			}else{
+				MoverCursor(x-25,y);
+				printf("%.47s...", aux);
+			}
+			//Imprimir DESCRIPCIÓN
+			sprintf(aux, "Descripción: %s",e.descripcion);
+			if(strlen(aux) <= 50){
+				MoverCursor(x-((int)strlen(aux)/2),y+1);
+				printf("%s", aux);
+			}else{
+				MoverCursor(x-25,y+1);
+				printf("%.47s...", aux);
+			}
+			//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
+			sprintf(aux, "Tiempo restante: %d",e.tiempo_ejecucion);
+			MoverCursor(x-((int)strlen(aux)/2),y+2);
 			printf("%s", aux);
 			x = auxX;
 		}
@@ -80,8 +118,27 @@ void Desencolar(cola * c, int x){//Desencolar (Dequeue): Recibe una cola y recor
 		for(i=1;i<DEFAULT;i++){
 			y+=TAM_FILA;
 			e = Element(c, i);
-			sprintf(aux, "%s: %s - %d",e.id, e.nombre, e.tiempo_ejecucion);
-			MoverCursor(x-((int)strlen(aux)/2),y);
+			//Imprimir ID y NOMBRE
+			sprintf(aux, "%s: %s",e.id, e.nombre);
+			if(strlen(aux) <= 50){
+				MoverCursor(x-((int)strlen(aux)/2),y);
+				printf("%s", aux);
+			}else{
+				MoverCursor(x-25,y);
+				printf("%.47s...", aux);
+			}
+			//Imprimir DESCRIPCIÓN
+			sprintf(aux, "Descripción: %s",e.descripcion);
+			if(strlen(aux) <= 50){
+				MoverCursor(x-((int)strlen(aux)/2),y+1);
+				printf("%s", aux);
+			}else{
+				MoverCursor(x-25,y+1);
+				printf("%.47s...", aux);
+			}
+			//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
+			sprintf(aux, "Tiempo restante: %d",e.tiempo_ejecucion);
+			MoverCursor(x-((int)strlen(aux)/2),y+2);
 			printf("%s", aux);
 			x = auxX;
 		}
@@ -100,8 +157,10 @@ void limpiarCola(int x){
 	char aux [] = "                         ";
 	for(i=0;i<=DEFAULT;i++){
 		y+=TAM_FILA;
-		MoverCursor(x,y);
-		printf("%s%s", aux, aux);
+		for(int j=0;j<3;j++){
+			MoverCursor(x,y+j);
+			printf("%s%s", aux, aux);
+		}
 	}
 }
 
@@ -117,30 +176,22 @@ void MostrarCola(cola * c, int x){
 	int i;
 	char aux[100], resultado_str[20];
 	proceso e;
-	limpiarCola(x);
-	if(tamano < DEFAULT){
-		for(i=1;i<=tamano;i++){
-			y+=TAM_FILA;
-			e = Element(c, i);
-			sprintf(aux, "%s: %s - %d",e.id, e.nombre, e.tiempo_real);
-			MoverCursor(x-((int)strlen(aux)/2),y);
-			printf("%s", aux);
-			x = auxX;
-		}
-	}else{
-		for(i=1;i<DEFAULT;i++){
-			y+=TAM_FILA;
-			e = Element(c, i);
-			sprintf(aux, "%s: %s - %d",e.id, e.nombre, e.tiempo_real);
-			MoverCursor(x-((int)strlen(aux)/2),y);
-			printf("%s", aux);
-			x = auxX;
-		}
-		int resultado = tamano - DEFAULT + 1;
-		sprintf(resultado_str, "%d", resultado);
-		strcpy(aux, "+ ");
-		strcat(aux, resultado_str);
-		MoverCursor(x-((int)strlen(aux)/2),y+TAM_FILA);
+	//limpiarCola(x);
+	for(i=1;i<=tamano;i++){
+		e = Element(c, i);
+		//Imprimir ID y NOMBRE
+		sprintf(aux, "%s: %s",e.id, e.nombre);
+		MoverCursor(x-((int)strlen(aux)/2),y);
 		printf("%s", aux);
+		//Imprimir DESCRIPCIÓN
+		sprintf(aux, "Descripción: %s",e.descripcion);
+		MoverCursor(x-((int)strlen(aux)/2),y+1);
+		printf("%s", aux);
+		//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
+		sprintf(aux, "Tiempo en total del proceso: %d",e.tiempo_real);
+		MoverCursor(x-((int)strlen(aux)/2),y+2);
+		printf("%s", aux);
+		x = auxX;
+		y+=TAM_FILA;
 	}
 }

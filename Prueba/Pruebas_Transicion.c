@@ -12,12 +12,24 @@
 void Transicion() {
     int tamX = 150;
     int tamY = 30;
+	//Imprimir asteriscos
     for (int d = 0; d < tamX + tamY - 1; d++) {
         for (int x = 0; x <= d; x++) {
             int y = d - x;
             if (x < tamX && y < tamY) {
                 MoverCursor(x, y); 
                 printf("*");
+            }
+        }
+		EsperarMiliSeg(5);
+    }
+	//Borrar los asteriscos
+	for (int d = 0; d < tamX + tamY - 1; d++) {
+        for (int x = 0; x <= d; x++) {
+            int y = d - x;
+            if (x < tamX && y < tamY) {
+                MoverCursor(x, y); 
+                printf(" ");
             }
         }
 		EsperarMiliSeg(5);
