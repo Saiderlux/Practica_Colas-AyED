@@ -7,8 +7,9 @@ Compilación de la libreria: Linux (gcc -c presentacionLin.c)
 */
 //LIBRERIAS
 #include <stdio.h>	
-#include <stdlib.h>			
-#include <unistd.h>  		//Libreria no ANSI C
+#include <stdlib.h>	
+#include <windows.h>  			
+//#include <unistd.h>  		//Libreria no ANSI C
 #include"presentacion.h"
 
 //DEFINICIÓN DE FUNCIONES
