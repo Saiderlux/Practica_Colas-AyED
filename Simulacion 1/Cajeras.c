@@ -77,9 +77,7 @@ int main(void)
     imprimirTitulo(nombre);
 
     // Imprimir las cajas
-    for(i = 1; i <= n; i++){
         colocarCajas(i, calcularPosicionX(i, n),0);
-    }
 
     // Ciclo principal
     while (1)
@@ -102,9 +100,6 @@ int main(void)
             e.n = cliente;
             fila = rand() % n;
             Queue(&cajera[fila], e);
-            Encolar(&cajera[fila], calcularPosicionX(fila + 1, n));
-          
-    }
 
 
         // Verificar condición de término
@@ -132,31 +127,8 @@ int calcularPosicionX(int columna, int n_columnas) {
 }
 
 int colocarCajas(int i, int x, int n){
-    if(n==0){
-        char aux[20], resultado_str[2];
-        sprintf(resultado_str, "%d", i);
         strcpy(aux, "🙂🟢  ");
-        strcat(aux, resultado_str);
-        strcat(aux, " ");
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS-1);
-        printf(COLOR_CAJAS "┌────────┐" COLOR_RESET);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS);
-        printf(COLOR_CAJAS "│%s│" COLOR_RESET, aux);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS+1);
-        printf(COLOR_CAJAS "└────────┘" COLOR_RESET);
-    }else{
-        char aux[20], resultado_str[2];
-        sprintf(resultado_str, "%d", i);
         strcpy(aux, "😴🔴  ");
-        strcat(aux, resultado_str);
-        strcat(aux, " ");
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS-1);
-        printf(COLOR_CAJAS "┌────────┐" COLOR_RESET);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS);
-        printf(COLOR_CAJAS "│%s│" COLOR_RESET, aux);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS+1);
-        printf(COLOR_CAJAS "└────────┘" COLOR_RESET);
-    }
     
 }
 
