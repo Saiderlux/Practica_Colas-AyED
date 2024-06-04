@@ -38,8 +38,8 @@ int main(void)
 {
 	int n, tiempo_atencion, tiempos_cliente[3];
 	unsigned int tiempo = 0;
-	unsigned int cliente = 0;
-	int i, j,fila;
+	unsigned int cliente = 0, contador2= 0;
+	int i, j,fila, bandera=0, bandera2 = 0;
 	elemento e;
 	//Leemos cuantos cajeros van a atender en el banco
 	printf("Ingresa la cantidad de cajeros: ");
@@ -95,49 +95,61 @@ int main(void)
 		
 		//Verificamos si los cajeros pueden atender algún cliente (que ya este formado)
 		for(i = 0; i<n; i++){
-			if(!Empty(&cajeros[i])){
-				if(tiempo % (tiempo_atencion / 10) == 0){
+			if(!Empty(&cajeros[i])){//si estan ocupada la caja
+				if(tiempo % (tiempo_atencion / 10) == 0){// si ya paso el tiempo de atencion, se remueve a la persona que se estaba atendiendo
 					e = Dequeue(&cajeros[i]);
 					limpiarLinea(calcularPosicionX(i+1, n), POS_Y_CAJAS);
 					//Desencolar(&cajeros[i], calcularPosicionX(i+1, n), POS_Y_CAJAS);
 					//printf("Se atendio a %d\n", e.n);
 				}
-			}else{ //Si hay clientes formados los mandamos a la cola
-				arrAux[cajasVacias++] = i;
+			}else{ // si hay cajas vacias, debemos saber cuantas y cuales
+				arrAux[cajasVacias++] = i;// para saber cuantas, nos ayudamos de "cajasVacias";  para saber cuales, del arreglo arrAux 
+				//para saber especificamente cuales cajas estan vacías, las guardamos de acuerdo con su índice i;
 			}
 		}
 		
 		//Si hay cajas vacias mandamos un cliente según la prioridad
 		if (cajasVacias > 0) {
-			fila = arrAux[rand() % cajasVacias]; //Fila vacia aleatoria a la que se manda un cliente
+			fila = arrAux[rand() % cajasVacias]; //Fila vacia aleatoria a la que se manda un cliente// elije aleatoriamente entre la cantidad de cajas vacias. Despues, accede a la posicion de esta para saber cual es esa caja (el indice i guardado) 
 			//Verificamos si hay clientes y su prioridad
-			if(!Empty(&clientes[1])){
-				e = Dequeue(&clientes[1]);
-				Desencolar(&clientes[1], calcularPosicionX(2,3), POS_Y_CLIENTES);
-				Queue(&cajeros[fila], e);
-				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
-				cliente==0;
-				//printf("Se mando un usuario a %d", fila);
-			}else if(!Empty(&clientes[2])){
-				e = Dequeue(&clientes[2]);
-				Desencolar(&clientes[2], calcularPosicionX(3,3), POS_Y_CLIENTES);
-				Queue(&cajeros[fila], e);
-				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
-				//printf("Se mando un C. preferente a %d", fila);
-			} else if(!Empty(&clientes[0])){
+			if(!Empty(&clientes[0]) && bandera==0 && bandera2==1 ){//clientes
 				e = Dequeue(&clientes[0]);
 				Desencolar(&clientes[0], calcularPosicionX(1,3), POS_Y_CLIENTES);
 				Queue(&cajeros[fila], e);
 				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
 				//printf("Se mando un C. del banco a %d", fila);
+				contador2=0;
+				bandera2=0;
+				if((cliente++)==5)
+					bandera=1;
 			}
+			else if(!Empty(&clientes[2]) && bandera==0){//preferentes
+				e = Dequeue(&clientes[2]);
+				Desencolar(&clientes[2], calcularPosicionX(3,3), POS_Y_CLIENTES);
+				Queue(&cajeros[fila], e);
+				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
+				//printf("Se mando un C. preferente a %d", fila);
+				if((cliente++)==5)
+					bandera=1;
+				if((contador2++)==3) bandera2=1;
+			} 
+			 else if(!Empty(&clientes[1]) && ( bandera==1 || ( Empty(&clientes[0]) && Empty(&clientes[2] ) ))){//usuarios
+				e = Dequeue(&clientes[1]);
+				Desencolar(&clientes[1], calcularPosicionX(2,3), POS_Y_CLIENTES);
+				Queue(&cajeros[fila], e);
+				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
+				bandera=0;
+				cliente=0;
+				//printf("Se mando un usuario a %d", fila);
+			}
+			
 		}
 		
 		//Verificamos si puede llegar algún cliente a la cola
 		for(i = 0; i<3; i++){
 			if(tiempo % (tiempos_cliente[i] / 10) == 0){
-				cliente++;
-				if(cliente > 5) cliente == 0;
+				//*cliente++;
+				//*if(cliente > 5) cliente == 0;
 				nclientes[i]++;
 				char str[10];
 				if(i==0) strcpy(str, "C:");
