@@ -1,5 +1,8 @@
 
-//Compilar: gcc simulacionSO.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
+//Compilar: (chcp 65006/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8) && gcc simulacionSO.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
+// para que se muestren bien los acentos se debe ejecutar el sguiente comando
+//   	para windows: chcp 65001
+//		para linux: sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +11,7 @@
 #include "TADColaDin.h"    //Si se usa la implemtentación estática (TADColaEst.c|TADColaEstCirc.c)
 #include "formato.h"
 #include "presentacion.h"
+#include <locale.h>
 
 #define POS_COLA_LISTOS 25
 #define POS_COLA_TERMINADOS 125
@@ -19,12 +23,13 @@ cola listos, terminados;
 
 void Transicion();
 void borrarTexto(int filas, int y);
-void ingresar_proceso(cola *c);
+int ingresar_proceso(cola *c);
 void mostrarProceso(proceso e);
 void limpiar_buffer();
 
 
 int main() {
+	setlocale(LC_ALL, "es_ES.UTF-8");
     // Inicializar las colas
     Initialize(&listos);
     Initialize(&terminados);
@@ -35,13 +40,9 @@ int main() {
 	
     int mas_procesos = 1;
     while (mas_procesos) {
-        ingresar_proceso(&listos);
-		MoverCursor(0,4);
-        printf("¿Ingresar otro proceso? (1 = Sí, 0 = No): ");
-        scanf("%d", &mas_procesos);
-		limpiar_buffer();
+        mas_procesos=ingresar_proceso(&listos);
 		borrarTexto(5,0);
-		MoverCursor(0,0);
+		MoverCursor(0,0);// 
     }
 	proceso p;
 	//Cabezas de las colas
@@ -97,8 +98,9 @@ void borrarTexto(int filas, int y){
 }
 
 // Función para ingresar un nuevo proceso
-void ingresar_proceso(cola *c) {
+int ingresar_proceso(cola *c) {
     proceso p;
+	int aux;
     printf("Ingrese el nombre del proceso: ");
     scanf("%[^\n]s", p.nombre);
 	limpiar_buffer();
@@ -112,8 +114,12 @@ void ingresar_proceso(cola *c) {
     scanf("%d", &p.tiempo_ejecucion);
 	limpiar_buffer();
 	p.tiempo_real = Size(c);
+	printf("¿Ingresar otro proceso? (1 = Sí, 0 = No): ");
+	scanf("%d", &aux);
+	limpiar_buffer();
     Queue(c, p);
 	Encolar(c, POS_COLA_LISTOS);
+	return aux;
 }
 
 //Función para imprimir el proceso en ejecución
