@@ -45,6 +45,7 @@ void Encolar(cola * c, int x){//Encolar : Recibe una cola e imprime la cola con 
 	int y = INICIO_Y;
 	if(tamano < DEFAULT){
 		y+=tamano * TAM_FILA;
+		if(Size(c)>=1) y+=tamano;
 		e = Final(c);
 		MoverCursor(x-21,y-1);
 		printf("-------------------------------------------");
