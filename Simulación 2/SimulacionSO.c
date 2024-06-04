@@ -1,5 +1,5 @@
 
-//Compilar: (chcp 65006/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8) && gcc simulacionSO.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
+//Compilar: (chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8) && gcc simulacionSO.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
 // para que se muestren bien los acentos se debe ejecutar el sguiente comando
 //   	para windows: chcp 65001
 //		para linux: sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8
@@ -103,12 +103,24 @@ int ingresar_proceso(cola *c) {
 	int aux;
     printf("Ingrese el nombre del proceso: ");
     scanf("%[^\n]s", p.nombre);
+	if(strlen(p.nombre)>45){
+		printf("\nNo se aceptan nombres con más de 45 carateres.");
+		exit(1);
+	}
 	limpiar_buffer();
     printf("Ingrese el ID del proceso: ");
     scanf("%s", p.id);
+	if(strlen(p.id)>45){
+		printf("\nNo se aceptan ID con más de 45 carateres.");
+		exit(1);
+	}
 	limpiar_buffer();
     printf("Ingrese la descripción del proceso: ");
     scanf(" %[^\n]s", p.descripcion);
+	if(strlen(p.descripcion)>200){
+		printf("\nNo se acepta descripción con más de 200 carateres.");
+		exit(1);
+	}
 	limpiar_buffer();
     printf("Ingrese el tiempo de ejecución del proceso (en segundos): ");
     scanf("%d", &p.tiempo_ejecucion);

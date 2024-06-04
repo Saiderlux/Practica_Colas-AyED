@@ -1,4 +1,4 @@
-//Formato para la simulacion 1
+//Formato para la simulacion 2
 /*
 LIBRERIA: Cabecera de el TAD COLA DINÁMICA
 AUTOR: Edgardo Adrián Franco Martínez (C) Noviembre 2022
@@ -39,20 +39,44 @@ typedef unsigned char boolean;
 
 //DECLARACIÓN DE FUNCIONES
 void Encolar(cola * c, int x){//Encolar : Recibe una cola e imprime la cola con el nuevo elemento
-	int tamano = Size(c);
-	char aux[100], resultado_str[50];
+	int tamano = Size(c), i, j;
+	proceso e;
+	char aux[300], resultado_str[50];
 	int y = INICIO_Y;
 	if(tamano < DEFAULT){
 		y+=tamano * TAM_FILA;
-		proceso e = Final(c);
+		e = Final(c);
+		MoverCursor(x-21,y-1);
+		printf("-------------------------------------------");
+		for(i=0, j=y; i < TAM_FILA; i++, j++){
+			MoverCursor(x-21,j);
+			printf("|");
+			MoverCursor(x+21,j);
+			printf("|");
+		}
+		MoverCursor(x-21,j);
+		printf("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
 		//Imprimir ID y NOMBRE
-		sprintf(aux, "%s: %s",e.id, e.nombre);
-		if(strlen(aux) <= 50){
-			MoverCursor(x-((int)strlen(aux)/2),y);
-			printf("%s", aux);
+		sprintf(aux, "%s : %s",e.id, e.nombre);
+		if(strlen(aux) <= 34 ){
+			if(strlen(e.id)>15)
+			{
+				MoverCursor(x-16,y);
+				printf("%.12s... : %s", e.id, e.nombre);
+			}
+			if(strlen(e.nombre)>15)
+			{
+				MoverCursor(x-16,y);
+				printf("%s... : %.12s", e.id, e.nombre);
+			}
+			else{
+				MoverCursor(x-((int)strlen(aux)/2),y);
+				printf("%s", aux);
+			}
+			
 		}else{
-			MoverCursor(x-25,y);
-			printf("%.47s...", aux);
+			MoverCursor(x-17,y);
+			printf("%.12s... : %.12s...", e.id, e.nombre);
 		}
 		//Imprimir DESCRIPCIÓN
 		sprintf(aux, "Descripción: %s",e.descripcion);
@@ -60,8 +84,8 @@ void Encolar(cola * c, int x){//Encolar : Recibe una cola e imprime la cola con 
 			MoverCursor(x-((int)strlen(aux)/2),y+1);
 			printf("%s", aux);
 		}else{
-			MoverCursor(x-25,y+1);
-			printf("%.47s...", aux);
+			MoverCursor(x-20,y+1);
+			printf("%.37s...", aux);
 		}
 		//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
 		sprintf(aux, "Tiempo restante: %d",e.tiempo_ejecucion);
