@@ -52,7 +52,7 @@ int main() {
 	printf("%s", auxL);
 	MoverCursor(POS_COLA_TERMINADOS-((int)strlen(auxT)/2), 6);
 	printf("%s", auxT);
-	
+	EsperarMiliSeg(2000);
     // Ciclo principal de ejecución
     while (!Empty(&listos)) {
 		p = Dequeue(&listos);
@@ -136,25 +136,38 @@ int ingresar_proceso(cola *c) {
 
 //Función para imprimir el proceso en ejecución
 void mostrarProceso(proceso e){
-	char aux[100], resultado_str[100];
-	for(int i=0;i<3;i++){
+	char aux[200], resultado_str[100];
+	int i, j;
+	for(i=0;i<3;i++){
 		limpiarLinea(POS_PROCESO, 3+i);
 	}
 	strcpy(aux, "En proceso:");
 	MoverCursor(POS_PROCESO-((int)strlen(aux)/2),3);
 	printf("%s", aux);
-	sprintf(resultado_str, "%s: %s",e.id, e.nombre);
+	strcpy(aux, "┌───────────────────────────────────┐");
+	MoverCursor(POS_PROCESO-18,4);
+	printf("%s", aux);
+	for(i=5; i <8 ; i++){
+		MoverCursor(POS_PROCESO-18,i);
+		printf("│");
+		MoverCursor(POS_PROCESO+18 ,i);
+		printf("│");
+	}
+	strcpy(aux, "└───────────────────────────────────┘");
+	MoverCursor(POS_PROCESO-18,8);
+	printf("%s", aux);
+	sprintf(resultado_str, "%s : %s",e.id, e.nombre);
 	strcpy(aux, resultado_str);
-	if(strlen(aux) <= 50){
-		MoverCursor(POS_PROCESO-((int)strlen(aux)/2),4);
+	if(strlen(aux) <= 34){
+		MoverCursor(POS_PROCESO-((int)strlen(aux)/2),5);
 		printf("%s", aux);
 	}else{
-		MoverCursor(POS_PROCESO-25,4);
-		printf("%.47s...", aux);
+		MoverCursor(POS_PROCESO-16,5);
+		printf("%.12s... : %.12s...", e.id, e.nombre);
 	}
 	sprintf(resultado_str, "Tiempo restante: %d",e.tiempo_ejecucion);
 	strcpy(aux, resultado_str);
-	MoverCursor(POS_PROCESO-((int)strlen(aux)/2),5);
+	MoverCursor(POS_PROCESO-((int)strlen(aux)/2),6);
 	printf("%s", aux);
 }
 
