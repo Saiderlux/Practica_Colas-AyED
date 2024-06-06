@@ -57,9 +57,9 @@ void Encolar(cola *c, int x) {
             y += TAM_FILA;
             sprintf(aux, "%d", Element(c, i).n);
             if (i == 1) {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_ATENDIDO, "💵");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_ATENDIDO, "💵");
             } else {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
             }
         }
     } else {
@@ -67,16 +67,16 @@ void Encolar(cola *c, int x) {
             y += TAM_FILA;
             sprintf(aux, "%d", Element(c, i).n);
             if (i == 1) {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_ATENDIDO, "💵");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_ATENDIDO, "💵");
             } else {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
             }
         }
         int resultado = tamano - DEFAULT + 1;
         sprintf(resultado_str, "%d", resultado);
         strcpy(aux, "+ ");
         strcat(aux, resultado_str);
-        MoverCursor(x - ((int)strlen(aux) / 2), y + TAM_FILA);
+        MoverCursor(x - ((int)strlen(aux) / 2)-1, y + TAM_FILA);
         printf("%s%s%s", COLOR_CLIENTE_NO_ATENDIDO, aux, COLOR_RESET);
     }
 }
@@ -94,9 +94,9 @@ void Desencolar(cola *c, int x) {
             y += TAM_FILA;
             sprintf(aux, "%d", Element(c, i).n);
             if (i == 1) {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_ATENDIDO, "💵");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_ATENDIDO, "💵");
             } else {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
             }
             x = auxX;
         }
@@ -105,9 +105,9 @@ void Desencolar(cola *c, int x) {
             y += TAM_FILA;
             sprintf(aux, "%d", Element(c, i).n);
             if (i == 1) {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_ATENDIDO, "💵");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_ATENDIDO, "💵");
             } else {
-                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2), y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
+                imprimirCliente(Element(c, i).n, x - ((int)strlen(aux) / 2)-2, y, COLOR_CLIENTE_NO_ATENDIDO, "🛒");
             }
             x = auxX;
         }
@@ -115,7 +115,7 @@ void Desencolar(cola *c, int x) {
         sprintf(resultado_str, "%d", resultado);
         strcpy(aux, "+ ");
         strcat(aux, resultado_str);
-        MoverCursor(x - ((int)strlen(aux) / 2), y + TAM_FILA);
+        MoverCursor(x - ((int)strlen(aux) / 2)-1, y + TAM_FILA);
         printf("%s%s%s", COLOR_CLIENTE_NO_ATENDIDO, aux, COLOR_RESET);
     }
 }

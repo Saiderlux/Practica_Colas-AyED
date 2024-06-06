@@ -22,7 +22,7 @@ Otra cosa esto es solo la logica de como podría funcionar solo faltaría que se
 
 // DEFINICIÓN DE CONSTANTES
 #define TIEMPO_BASE    200    // Tiempo base en ms
-#define TAM_MAX_X    100    // Tamaño de la pantalla en X
+#define TAM_MAX_X    150    // Tamaño de la pantalla en X
 #define Y_CAJAS    3    // Línea de las cajas
 #define CLIENTES_OBJETIVO 100 // Número de clientes objetivo
 
@@ -132,12 +132,21 @@ int calcularPosicionX(int columna, int n_columnas) {
 
 int colocarCajas(int i, int x, int n){
 
-	char aux[20], resultado_str[2];
+	char aux[20], resultado_str[3];
     sprintf(resultado_str, "%d", i);
-	if(n==0)
-        strcpy(aux, "🙂🟢  ");
+	if(n==0){
+		if(i==10)
+			strcpy(aux, "🙂🟢 ");
+		else
+			strcpy(aux, "🙂🟢  ");
+	}
     else
-        strcpy(aux, "😴🔴  ");
+	{
+		if(i==10)
+			strcpy(aux, "😴🔴 ");
+		else
+			strcpy(aux, "😴🔴  ");
+	}
 	strcat(aux, resultado_str);
 	strcat(aux, " ");
 	MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS-1);
