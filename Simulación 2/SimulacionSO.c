@@ -30,6 +30,10 @@ void limpiar_buffer();
 
 int main() {
 	setlocale(LC_ALL, "es_ES.UTF-8");
+
+	char aux[],auxL[],auxT[];
+	int mas_procesos = 1, i;
+
     // Inicializar las colas
     Initialize(&listos);
     Initialize(&terminados);
@@ -38,22 +42,23 @@ int main() {
 	
 	BorrarPantalla();
 	
-    int mas_procesos = 1;
     while (mas_procesos) {
         mas_procesos=ingresar_proceso(&listos);
-		borrarTexto(5,0);
+		borrarTexto(6,0);
 		MoverCursor(0,0);// 
     }
 	proceso p;
+
 	//Cabezas de las colas
-	char auxL[] = "Cola de procesos:"; 
-	char auxT[] = "Procesos terminados:"; 
+	auxL[] = "Cola de procesos:"; 
+	auxT[] = "Procesos terminados:"; 
 	MoverCursor(POS_COLA_LISTOS-((int)strlen(auxL)/2), 6);
 	printf("%s", auxL);
 	MoverCursor(POS_COLA_TERMINADOS-((int)strlen(auxT)/2), 6);
 	printf("%s", auxT);
 	EsperarMiliSeg(2000);
-    // Ciclo principal de ejecución
+
+    // Ciclo principal de ejecución//simulacion
     while (!Empty(&listos)) {
 		p = Dequeue(&listos);
 		Desencolar(&listos, POS_COLA_LISTOS);
@@ -70,10 +75,16 @@ int main() {
 			Encolar(&listos, POS_COLA_LISTOS);
 		}
     }
-	
+	//para terminar de dar un buen diseño, borrar lo ultimo del proceso
+	for(i=0; i<=5 ;i++){
+		limpiarLinea(POS_PROCESO, 3+i);
+	}
+
+	//transicion para el final
 	Transicion();
 	
-	char aux[] = "PROCESOS TERMINADOS:";
+	//imprimir los procesos
+	aux[] = "PROCESOS TERMINADOS:";
 	MoverCursor(POS_PROCESO - ((int)strlen(aux)/2), 4);
 	printf("%s", aux);
 	MostrarCola(&terminados, POS_PROCESO);
@@ -91,7 +102,8 @@ int main() {
 //Función para borrar el texto al leer los procesos
 void borrarTexto(int filas, int y){
 	char aux [] = "                                                                                                                                            ";
-	for(int i =0;i<filas;i++, y++){
+	int i;
+	for(i =0;i<filas;i++, y++){
 		MoverCursor(0,y);
 		printf("%s", aux);
 	}
@@ -138,7 +150,7 @@ int ingresar_proceso(cola *c) {
 void mostrarProceso(proceso e){
 	char aux[200], resultado_str[100];
 	int i, j;
-	for(i=0;i<3;i++){
+	for(i=0;i<5	;i++){
 		limpiarLinea(POS_PROCESO, 3+i);
 	}
 	strcpy(aux, "En proceso:");
@@ -173,12 +185,11 @@ void mostrarProceso(proceso e){
 
 // Función de transición de esquina a esquina
 void Transicion() {
-    int tamX = 150;
-    int tamY = 30;
+    int tamX = 150, tamY = 30, d, x, y;
 	//Imprimir asteriscos
-    for (int d = 0; d < tamX + tamY - 1; d++) {
-        for (int x = 0; x <= d; x++) {
-            int y = d - x;
+    for ( d = 0; d < tamX + tamY - 1; d++) {
+        for (x = 0; x <= d; x++) {
+            y = d - x;
             if (x < tamX && y < tamY) {
                 MoverCursor(x, y); 
                 printf("*");
@@ -187,9 +198,9 @@ void Transicion() {
 		EsperarMiliSeg(5);
     }
 	//Borrar los asteriscos
-	for (int d = 0; d < tamX + tamY - 1; d++) {
-        for (int x = 0; x <= d; x++) {
-            int y = d - x;
+	for (d = 0; d < tamX + tamY - 1; d++) {
+        for (ix = 0; x <= d; x++) {
+            y = d - x;
             if (x < tamX && y < tamY) {
                 MoverCursor(x, y); 
                 printf(" ");
