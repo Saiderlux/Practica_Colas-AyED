@@ -25,7 +25,7 @@ int calcularPosicionX(int columna, int n_columnas) {
 }
 
 int colocarCajas(int i, int x, int y){
-	char aux[20], resultado_str[2];
+	char aux[20], resultado_str[3];
 	sprintf(resultado_str, "%d", i);
 	strcpy(aux, "[ ");
 	strcat(aux, resultado_str);
