@@ -1,9 +1,24 @@
+/*
+Main de la simulación 2: Ejecución de procesos en el sistema operativo
+AUTOR: 
+VERSIÓN: 2.1
 
-//Compilar: (chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8) && gcc simulacionSO.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
-// para que se muestren bien los acentos se debe ejecutar el sguiente comando
-//   	para windows: chcp 65001
-//		para linux: sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8
+DESCRIPCIÓN: Simular lña ejecución de los procesos gestionados por el sistema
+	operativo en un monoprocesador sin manejo de prioridades.
+	
+OBSERVACIONES: Una vez que ya se halla terminado el proceso, este se envia a la
+	cola de terminados
 
+COMPILACIÓN: 
+Windows (en Windows Terminal):
+	CHCP 65001
+	gcc Cajeras.c formato.c presentacionWin/Lin.c TadColaDin.c -o cajeras
+Linux:
+	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8) && gcc simulacionSO.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
+	
+*/
+
+// LIBRERÍAS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,9 +33,10 @@
 #define POS_PROCESO 75
 
 
-// Declarar las colas globales
+//DECLARACIÓN DE LAS COLAS GLOBALES
 cola listos, terminados;
 
+// DECLARACIÓN DE FUNCIONES
 void Transicion();
 void borrarTexto(int filas, int y);
 int ingresar_proceso(cola *c);
@@ -28,10 +44,13 @@ void mostrarProceso(proceso e);
 void limpiar_buffer();
 
 
+//******************************************************************************************************
+//	MAIN
+//******************************************************************************************************
 int main() {
 	setlocale(LC_ALL, "es_ES.UTF-8");
 
-	char aux[],auxL[],auxT[];
+	//char aux[],auxL[],auxT[]; MARCABA ERROR AL COMPILAR, SE PUEDE HACER ESTO PERO HAY QUE COLOCARLE UN VALOR A CADA ARREGLO O DE UNA VEZ INICIALIZARLO DESDE AQUÍ
 	int mas_procesos = 1, i;
 
     // Inicializar las colas
@@ -50,8 +69,8 @@ int main() {
 	proceso p;
 
 	//Cabezas de las colas
-	auxL[] = "Cola de procesos:"; 
-	auxT[] = "Procesos terminados:"; 
+	char auxL[] = "Cola de procesos:"; 
+	char auxT[] = "Procesos terminados:"; 
 	MoverCursor(POS_COLA_LISTOS-((int)strlen(auxL)/2), 6);
 	printf("%s", auxL);
 	MoverCursor(POS_COLA_TERMINADOS-((int)strlen(auxT)/2), 6);
@@ -84,7 +103,7 @@ int main() {
 	Transicion();
 	
 	//imprimir los procesos
-	aux[] = "PROCESOS TERMINADOS:";
+	char aux[] = "PROCESOS TERMINADOS:";
 	MoverCursor(POS_PROCESO - ((int)strlen(aux)/2), 4);
 	printf("%s", aux);
 	MostrarCola(&terminados, POS_PROCESO);
@@ -96,10 +115,18 @@ int main() {
     return 0;
 }
 
-/*********************************************************************************************/
-//FUNCIONES
-/*********************************************************************************************/
-//Función para borrar el texto al leer los procesos
+//******************************************************************************************************
+//	FUNCIONES
+//******************************************************************************************************
+/*
+void borrarTexto(int filas, int y);
+Descripción: Función que elimina todo una línea de texto en la terminal
+Recibe: int filas (Número de lineas a eliminar), int y (posición en y en la que se
+	empezara a eliminar)
+Devuelve: void
+Observaciones: Lo que se eliminara en la línea va a depender del número de caracteres
+	en aux
+*/
 void borrarTexto(int filas, int y){
 	char aux [] = "                                                                                                                                            ";
 	int i;
@@ -109,7 +136,14 @@ void borrarTexto(int filas, int y){
 	}
 }
 
-// Función para ingresar un nuevo proceso
+/*
+int ingresar_proceso(cola *c);
+Descripción: Función para leer los datos de cada procesos 
+Recibe: cola * c (cola en la que se guardaran los procesos)
+Devuelve: int (para saber si se van a seguir ingresando procesos)
+Observaciones: La cola debe de estar inicializada y el usuario debe	
+	tener cuidado con los datos que ingrese
+*/
 int ingresar_proceso(cola *c) {
     proceso p;
 	int aux;
@@ -146,7 +180,13 @@ int ingresar_proceso(cola *c) {
 	return aux;
 }
 
-//Función para imprimir el proceso en ejecución
+/*
+void mostrarProceso(proceso e);
+Descripción: Función para imprimir el proceso que esta en ejecución
+Recibe: proceso e (Recibe el proceso que esta en ejecución en ese momento)
+Devuelve: void
+Observaciones: El proceso debe de tener ya inicializada la información a utilizar
+*/
 void mostrarProceso(proceso e){
 	char aux[200], resultado_str[100];
 	int i, j;
@@ -183,7 +223,15 @@ void mostrarProceso(proceso e){
 	printf("%s", aux);
 }
 
-// Función de transición de esquina a esquina
+/*
+void Transicion();
+Descripción: Función para imprimir una breve transición para evitar cambios bruscos
+	en el formato
+Recibe: 
+Devuelve: void
+Observaciones: La transición va a depender de dos variables la anchura: tamX y altura
+	tamY
+*/
 void Transicion() {
     int tamX = 150, tamY = 30, d, x, y;
 	//Imprimir asteriscos
@@ -199,7 +247,7 @@ void Transicion() {
     }
 	//Borrar los asteriscos
 	for (d = 0; d < tamX + tamY - 1; d++) {
-        for (ix = 0; x <= d; x++) {
+        for (x = 0; x <= d; x++) {
             y = d - x;
             if (x < tamX && y < tamY) {
                 MoverCursor(x, y); 
@@ -210,6 +258,14 @@ void Transicion() {
     }
 }
 
+/*
+void limpiar_buffer();
+Descripción: Función que se encarga de limpiar el buffer para evitar leer datos
+	incorrectos en las cadenas
+Recibe: 
+Devuelve: void
+Observaciones: Funciona "tragando" datos hasta encontrar un salto de línea
+*/
 void limpiar_buffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
