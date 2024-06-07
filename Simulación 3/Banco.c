@@ -1,3 +1,23 @@
+/*
+Main de la simulación 3: 
+AUTOR: 
+VERSIÓN: 1.1
+
+DESCRIPCIÓN: Simula la atención de personas en un banco, cuidando sean
+	respetadas las políticas de atención del mismo y evitando que las personas
+	no dejen de ser atendidas.
+	
+OBSERVACIONES: Se tienen tres tipos de clientes cada uno con diferente prioridad
+	para ser atendidos pero hay que cuidar que siempre sean atendidos los clientes
+	
+COMPILACIÓN: 
+Windows (en Windows Terminal):
+	CHCP 65001
+	gcc Banco.c formato.c presentacionWin/Lin.c TadColaDin.c -o banco
+Linux:
+	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8)
+		&& gcc Banco.c formato.c presentacion(Win/Lin).c TADColaDin.c -o banco
+*/
 
 //LIBRERAS
 #include <stdio.h>
@@ -5,35 +25,23 @@
 #include <string.h>
 #include "presentacion.h"
 #include <time.h>
-#include "TADColaDin.h"
+#include "TADColaDin.h" //Si se usa la implemtentación estática (TADColaEst.c|TADColaEstCirc.c)
 #include "formato.h"
 
 //DEFINICION DE CONSTANTES
-#define TIEMPO_BASE	200
-#define POS_Y_CAJAS 3
-#define POS_Y_CLIENTES 7
-#define TAM_MAX_X 100
+#define TIEMPO_BASE	200 // Tiempo base en ms
+#define POS_Y_CAJAS 3 // Posición en Y en la que se imprimen los cajeros
+#define POS_Y_CLIENTES 7 // Posición en Y en la que se imprimen los clientes
+#define TAM_MAX_X 100 // Tamaño de la pantalla en X
+
+// DECLARACIÓN DE FUNCIONES
+int calcularPosicionX(int columna, int n_columnas);
+int colocarCajas(int i, int x, int y);
 
 
-int calcularPosicionX(int columna, int n_columnas) {
-    // Calcular el ancho de cada columna
-    int ancho_columna = TAM_MAX_X / (n_columnas + 1);
-    // Calcular la posición x de la columna específica
-    int posicion_x = ancho_columna * columna;
-    
-    return posicion_x;
-}
-
-int colocarCajas(int i, int x, int y){
-	char aux[20], resultado_str[2];
-	sprintf(resultado_str, "%d", i);
-	strcpy(aux, "[ ");
-	strcat(aux, resultado_str);
-	strcat(aux, " ]");
-	MoverCursor(x-((int)strlen(aux)/2), y-1);
-	printf("%s", aux);
-}
-
+//******************************************************************************************************
+//	MAIN
+//******************************************************************************************************
 int main(void)
 {
 	int n, tiempo_atencion, tiempos_cliente[3];
@@ -164,4 +172,45 @@ int main(void)
 		}
 	}
 	return 0;
+}
+
+//******************************************************************************************************
+//	FUNCIONES
+//******************************************************************************************************
+/*
+void calcularPosicionX(int columna, int n_columnas);
+Descripción: Retornar la posición en la que debe colocarse cada cola
+	según la cantidad de cajas
+Recibe: int columna(número de caja a retornar su pos), int n_columnas (número de cajas)
+Devuelve: void
+Observaciones: El usuario no se debe de exceder del número de cajas y debe considerar
+	el TAM_MAX_X que es la anchura del programa
+*/
+int calcularPosicionX(int columna, int n_columnas) {
+    // Calcular el ancho de cada columna
+    int ancho_columna = TAM_MAX_X / (n_columnas + 1);
+    // Calcular la posición x de la columna específica
+    int posicion_x = ancho_columna * columna;
+    
+    return posicion_x;
+}
+
+/*
+void colocarCajas(int i, int x, int y);
+Descripción: Imprime la caja i en la posición (x,y)
+Recibe: int i (número de caja), int x (posición en x en la que se imprimira la caja),
+	int y (posición en Y en la que se imprimira la caja)
+Devuelve: void
+Observaciones: El usuario no debe de excederse en cajas de más de 2 digitos
+	Realmente se imprime en y-1, debido a que se considera que en esa posición empiezan
+	las colas 
+*/
+int colocarCajas(int i, int x, int y){
+	char aux[20], resultado_str[3];
+	sprintf(resultado_str, "%d", i);
+	strcpy(aux, "[ ");
+	strcat(aux, resultado_str);
+	strcat(aux, " ]");
+	MoverCursor(x-((int)strlen(aux)/2), y-1);
+	printf("%s", aux);
 }

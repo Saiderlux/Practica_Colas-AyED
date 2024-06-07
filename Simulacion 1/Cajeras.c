@@ -1,13 +1,23 @@
 /*
-Ejecucion:
-gcc Cajeras.c formato.c presentacionWin/Lin.c TadColaDin.c -o cajeras
+Main de la simulación 1: Supermercado
+AUTOR: 
+VERSIÓN: 1.1
 
-Ya funciona (en teoría), solo falta la condición de término, solo que
-    no entiendo si cuando llegue a minimo 100 personas dejaran de llegar
-    personas o ya después de las 100 personas esperemos hasta que esten vacias las colas
-    y terminamos el "dia"
-    
-Otra cosa esto es solo la logica de como podría funcionar solo faltaría que se vea bien
+DESCRIPCIÓN: Simulación de un supermercado
+	Simular la atención de clientes en un supermercado, el cuál deberá
+	atender al menos 100 clientes por día para no tener perdidas.
+	
+OBSERVACIONES: Una vez que ya se atendieron a más de 100 personas y no hay
+	gente formada en las cajas puede cerrar la tienda. Mientras no se cierre
+	la tienda, las personas podrán seguir llegando a las cajas.
+
+COMPILACIÓN: 
+Windows (en Windows Terminal):
+	CHCP 65001
+	gcc Cajeras.c formato.c presentacionWin/Lin.c TadColaDin.c -o cajeras
+Linux:
+	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8)
+		&& gcc Cajeras.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
 */
 
 // LIBRERÍAS
@@ -15,14 +25,13 @@ Otra cosa esto es solo la logica de como podría funcionar solo faltaría que se
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-//#include "TADCola/TADColaEst.h"     //Si se usa la implemtentación dinámica (TADColaDin.c)
 #include "TADColaDin.h"    //Si se usa la implemtentación estática (TADColaEst.c|TADColaEstCirc.c)
 #include "formato.h"
 #include "presentacion.h"
 
 // DEFINICIÓN DE CONSTANTES
 #define TIEMPO_BASE    200    // Tiempo base en ms
-#define TAM_MAX_X    100    // Tamaño de la pantalla en X
+#define TAM_MAX_X    150    // Tamaño de la pantalla en X
 #define Y_CAJAS    3    // Línea de las cajas
 #define CLIENTES_OBJETIVO 100 // Número de clientes objetivo
 
@@ -32,12 +41,16 @@ Otra cosa esto es solo la logica de como podría funcionar solo faltaría que se
 #define COLOR_TITULO  "\x1b[34m" // Azul
 #define COLOR_CLIENTE "\x1b[32m" // Verde
 
-// DEFINICIÓN DE FUNCIONES
+// DECLARACIÓN DE FUNCIONES
 int calcularPosicionX(int columna, int n_columnas);
 int colocarCajas(int i, int x, int n);
 void imprimirTitulo(const char *nombre);
 int clientesEnColas(cola cajera[], int n);
 
+
+//******************************************************************************************************
+//	MAIN
+//******************************************************************************************************
 int main(void)
 {
     char nombre[100];
@@ -121,6 +134,18 @@ int main(void)
     return 0;
 }
 
+//******************************************************************************************************
+//	FUNCIONES
+//******************************************************************************************************
+/*
+void calcularPosicionX(int columna, int n_columnas);
+Descripción: Retornar la posición en la que debe colocarse cada cola
+	según la cantidad de cajas
+Recibe: int columna(número de caja a retornar su pos), int n_columnas (número de cajas)
+Devuelve: void
+Observaciones: El usuario no se debe de exceder del número de cajas y debe considerar
+	el TAM_MAX_X que es la anchura del programa
+*/
 int calcularPosicionX(int columna, int n_columnas) {
     // Calcular el ancho de cada columna
     int ancho_columna = TAM_MAX_X / (n_columnas + 1);
@@ -130,14 +155,32 @@ int calcularPosicionX(int columna, int n_columnas) {
     return posicion_x;
 }
 
+/*
+void colocarCajas(int i, int x, int n);
+Descripción: Imprime las cajas en la posición en x que se le indica y dependiendo de n
+	imprimira el tipo de caja correspondiente
+Recibe: int i (número de caja), int x (posición en x en la que se imprimira la caja),
+	int n (bandera para saber que tipo de caja corresponde)
+Devuelve: void
+Observaciones: El usuario no debe de excederse en cajas de más de 2 digitos, así como para
+	n colocar un valor valido (0: abierto, cualquier otro: cerrado)
+*/
 int colocarCajas(int i, int x, int n){
-
-	char aux[20], resultado_str[2];
+	char aux[20], resultado_str[3];
     sprintf(resultado_str, "%d", i);
-	if(n==0)
-        strcpy(aux, "🙂🟢  ");
+	if(n==0){
+		if(i==10)
+			strcpy(aux, "🙂🟢 ");
+		else
+			strcpy(aux, "🙂🟢  ");
+	}
     else
-        strcpy(aux, "😴🔴  ");
+	{
+		if(i==10)
+			strcpy(aux, "😴🔴 ");
+		else
+			strcpy(aux, "😴🔴  ");
+	}
 	strcat(aux, resultado_str);
 	strcat(aux, " ");
 	MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS-1);
@@ -149,6 +192,14 @@ int colocarCajas(int i, int x, int n){
     
 }
 
+/*
+void imprimirTitulo(const char *nombre);
+Descripción: Imprime el nombre del supermercado en la parte superior de la simulación
+Recibe: const char *nombre (apuntador a el nombre del supermercado)
+Devuelve: void
+Observaciones: El nombre ya debe estar inicializado, la posición depende de TAM_MAX_X
+	y el color en el que se imprimira depende de COLOR_TITULO
+*/
 void imprimirTitulo(const char *nombre) {
     int x = TAM_MAX_X / 2;
     int y = 1;  // Línea superior de la pantalla
@@ -156,7 +207,13 @@ void imprimirTitulo(const char *nombre) {
     printf(COLOR_TITULO "%s" COLOR_RESET, nombre);
 }
 
-
+/*
+int clientesEnColas(cola cajera[], int n);
+Descripción: Cuenta el número de clientes que hay en cada cola en ese momento
+Recibe: cola cajera[] (arreglo de colas de las cajas), int n (número de cajas)
+Devuelve: int (el número de clientes que hay en todas las cajas en "total")
+Observaciones: El arreglo de colas ya debe estar incializada y n > 0
+*/
 int clientesEnColas(cola cajera[], int n) {
     int total = 0;
     for (int i = 0; i < n; i++) {

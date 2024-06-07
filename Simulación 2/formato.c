@@ -1,22 +1,17 @@
-//Formato para la simulacion 1
 /*
-LIBRERIA: Cabecera de el TAD COLA DINÁMICA
-AUTOR: Edgardo Adrián Franco Martínez (C) Noviembre 2022
-VERSIÓN: 1.7
+Formato de la simulación 2: Ejecución de procesos en el sistema operativo
+AUTOR: 
+VERSIÓN: 2.0
 
-DESCRIPCIÓN: TAD cola o Queue.
-Estructura de datos en la que se cumple:
-Los elementos se insertan en un extremo (el posterior) y 
-la supresiones tienen lugar en el otro extremo (frente).
-
-OBSERVACIONES: Hablamos de una Estructura de datos dinámica 
-cuando se le asigna memoria a medida que es necesitada, 
-durante la ejecución del programa. 
- 
+DESCRIPCIÓN: Funciones necesarias para mostrar de manera agradable el Queue y
+	Dequeue de elementos en las colas
+	
+OBSERVACIONES: Se hace uso de caracteres especiales
 */
 
+// LIBRERÍAS
 #include <string.h>
-#include "TADColaDin.h"
+#include "TADColaDin.h"    //Si se usa la implemtentación estática (TADColaEst.c|TADColaEstCirc.c)
 //#include <windows.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -28,7 +23,7 @@ durante la ejecución del programa.
 #define TRUE	1
 #define FALSE	0
 #define DEFAULT	5
-#define TAM_FILA 4
+#define TAM_FILA 5
 #define INICIO_Y 5
 
 //DEFINICIONES DE TIPOS DE DATO
@@ -37,11 +32,20 @@ durante la ejecución del programa.
 typedef unsigned char boolean;
 
 
-//DECLARACIÓN DE FUNCIONES
-void Encolar(cola * c, int x){//Encolar : Recibe una cola e imprime la cola con el nuevo elemento
+/*
+void Encolar(cola *c, int x);
+Descripción: Imprimir el último proceso agregado a la cola
+Recibe: cola *c (apuntador a la cola en que se agregó un proceso), int x (posición en x de esa cola)
+Devuelve: void
+Observaciones: La cola ya debe estar inicializada, la función depende de constantes como lo son:
+	DEFAULT (número de elementos que se mostraran), TAM_FILA (posición en y que se movera tras agregar
+	un nuevo elemento), INICIO_Y (posición en y a partir de la cual se empezaran a imprimir los elementos)
+	La función se encarga de adaptar las cadenas dependiendo del texto que tiene el nombre, id y descripción
+*/
+void Encolar(cola * c, int x){
 	int tamano = Size(c), i, j;
 	proceso e;
-	char aux[100], resultado_str[50];
+	char aux[220], resultado_str[50];
 	int y = INICIO_Y;
 
 	//mostrar el nuevo proceso agregado
@@ -115,11 +119,21 @@ void Encolar(cola * c, int x){//Encolar : Recibe una cola e imprime la cola con 
 	}
 }
 
+/*
+void Desencolar(cola *c, int x);
+Descripción: Reimprimir la cola sin el primer elemento (elemento de frente)
+Recibe: cola *c (apuntador a la cola en que se eliminó el elemento), int x (posición en x de esa cola)
+Devuelve: void
+Observaciones: La cola ya debe estar inicializada, la función depende de constantes como lo son:
+	DEFAULT (número de elementos que se mostraran), TAM_FILA (posición en y que se movera tras agregar
+	un nuevo elemento), INICIO_Y (posición en y a partir de la cual se empezaran a imprimir los elementos)
+	La función se encarga de adaptar las cadenas dependiendo del texto que tiene el nombre, id y descripción
+*/
 void Desencolar(cola * c, int x){//Desencolar (Dequeue): Recibe una cola y recorre la fila para eliminar el primer elemento
 	int auxX = x,y = INICIO_Y;
 	int tamano = Size(c);
 	int i,j,k;
-	char aux[100], resultado_str[20];
+	char aux[220], resultado_str[20];
 	proceso e;
 	limpiarCola(x);
 	//aqui se vuelve a imprir la cola completa en cada ejecucion ya que va cambaindo en cada estado
@@ -250,6 +264,17 @@ void Desencolar(cola * c, int x){//Desencolar (Dequeue): Recibe una cola y recor
 	}
 }
 
+
+/*
+void limpiarCola(int x);
+Descripción: Eliminar la cola que se encuentra en la posición en x, para evitar errores al sobreescribir
+Recibe: int x (posición en x de la cola a eliminar)
+Devuelve: void
+Observaciones: La cola ya debe estar inicializada, la función depende de constantes como lo son:
+	DEFAULT (número de elementos que se mostraran), TAM_FILA (posición en y que se movera al recorrer
+	los elementos), INICIO_Y (posición en y a partir de la cual se empezaran a eliminar los elementos)
+	El texto que va a eliminar va a depender de la variable aux
+*/
 void limpiarCola(int x){
 	int y = INICIO_Y, i;
 	x = x - 25;
@@ -263,19 +288,35 @@ void limpiarCola(int x){
 	}
 }
 
+/*
+void limpiarLinea(int x, int y);
+Descripción: Eliminar solo una línea en la posición indicada (x,y)
+Recibe: int x (posición en x del texto a eliminar), int y (posición en y del texto a eliminar)
+Devuelve: void
+Observaciones: El texto a eliminar no debe exceder el tamaño de la cadena aux
+*/
 void limpiarLinea(int x, int y){
 	char aux [] = "                         ";
 	MoverCursor(x-25,y);
 	printf("%s%s", aux, aux);
 }
 
+/*
+void MostrarCola(cola *c, int x);
+Descripción: Imprimir la cola en la posición dada en x
+Recibe: cola *c (apuntador a la cola a imprimir), int x (posición en x en la que se imprimira)
+Devuelve: void
+Observaciones: La cola ya debe estar inicializada, la función depende de constantes como lo son:
+	DEFAULT (número de elementos que se mostraran), TAM_FILA (posición en y que se movera tras agregar
+	un nuevo elemento), INICIO_Y (posición en y a partir de la cual se empezaran a imprimir los elementos)
+	En este caso no se limitan las cadenas, ya que queremos mostrar todo lo que ingreso el usuario
+*/
 void MostrarCola(cola * c, int x){
 	int auxX = x,y = INICIO_Y;
 	int tamano = Size(c);
 	int i;
-	char aux[100], resultado_str[20];
+	char aux[220], resultado_str[20];
 	proceso e;
-	//limpiarCola(x);
 	for(i=1;i<=tamano;i++){
 		e = Element(c, i);
 
