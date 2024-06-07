@@ -1,20 +1,15 @@
-//Formato para la simulacion 1
 /*
-LIBRERIA: Cabecera de el TAD COLA DINÁMICA
-AUTOR: Edgardo Adrián Franco Martínez (C) Noviembre 2022
-VERSIÓN: 1.7
+Formato de la simulación 3: Banco
+AUTOR: 
+VERSIÓN: 3.0
 
-DESCRIPCIÓN: TAD cola o Queue.
-Estructura de datos en la que se cumple:
-Los elementos se insertan en un extremo (el posterior) y 
-la supresiones tienen lugar en el otro extremo (frente).
-
-OBSERVACIONES: Hablamos de una Estructura de datos dinámica 
-cuando se le asigna memoria a medida que es necesitada, 
-durante la ejecución del programa. 
- 
+DESCRIPCIÓN: Funciones necesarias para mostrar de manera agradable el Queue y
+	Dequeue de elementos en las colas
+	
+OBSERVACIONES: Se hace uso de caracteres especiales
 */
 
+// LIBRERÍAS
 #include <string.h>
 #include "TADColaDin.h"
 //#include <windows.h>
@@ -29,7 +24,6 @@ durante la ejecución del programa.
 #define FALSE	0
 #define DEFAULT	5
 #define TAM_FILA	2
-//#define TAM_COLUMNA	10
 #define INICIO_Y 5
 
 //DEFINICIONES DE TIPOS DE DATO
@@ -38,8 +32,17 @@ durante la ejecución del programa.
 typedef unsigned char boolean;
 
 
-//DECLARACIÓN DE FUNCIONES
-void Encolar(cola * c, int x, int y){//Encolar : Recibe una cola e imprime la cola con el nuevo elemento
+/*
+void Encolar(cola *c, int x, int y);
+Descripción: Imprimir el último elemento agregado a la cola
+Recibe: cola *c (apuntador a la cola en que se agregó un elemento), int x (posición en x de esa cola)
+	int y (posición en y de esa cola)
+Devuelve: void
+Observaciones: La cola ya debe estar inicializada, la función depende de constantes como lo son:
+	DEFAULT (número de elementos que se mostraran), TAM_FILA (posición en y que se movera tras agregar
+	un nuevo elemento)
+*/
+void Encolar(cola * c, int x, int y){
 	int tamano = Size(c);
 	char aux[100], resultado_str[20];
 	if(tamano < DEFAULT){
@@ -58,7 +61,17 @@ void Encolar(cola * c, int x, int y){//Encolar : Recibe una cola e imprime la co
 	printf("%s", aux);
 }
 
-void Desencolar(cola * c, int x,int y){//Desencolar (Dequeue): Recibe una cola y recorre la fila para eliminar el primer elemento
+/*
+void Desencolar(cola *c, int x, int y);
+Descripción: Reimprimir la cola sin el primer elemento (elemento de frente)
+Recibe: cola *c (apuntador a la cola en que se eliminó el elemento), int x (posición en x de esa cola)
+	int y (posición en y de esa cola)
+Devuelve: void
+Observaciones: La cola ya debe estar inicializada, la función depende de constantes como lo son:
+	DEFAULT (número de elementos que se mostraran), TAM_FILA (posición en y que se movera tras agregar
+	un nuevo elemento)
+*/
+void Desencolar(cola * c, int x,int y){
 	int auxX = x;
 	int tamano = Size(c);
 	int i;
@@ -89,6 +102,15 @@ void Desencolar(cola * c, int x,int y){//Desencolar (Dequeue): Recibe una cola y
 	}
 }
 
+/*
+void limpiarCola(int x, int y);
+Descripción: Eliminar la cola que se encuentra en la posición en x, para evitar errores al sobreescribir
+Recibe: int x (posición en x de la cola a eliminar), int y (posición en y de la cola a eliminar)
+Devuelve: void
+Observaciones: La cola ya debe estar inicializada, la función depende de constantes como lo son:
+	DEFAULT (número de elementos que se mostraran), TAM_FILA (posición en y que se movera al recorrer
+	los elementos)
+*/
 void limpiarCola(int x, int y){
 	int i;
 	x = x - 5;
@@ -100,6 +122,13 @@ void limpiarCola(int x, int y){
 	}
 }
 
+/*
+void limpiarLinea(int x, int y);
+Descripción: Eliminar solo una línea en la posición indicada (x,y)
+Recibe: int x (posición en x del texto a eliminar), int y (posición en y del texto a eliminar)
+Devuelve: void
+Observaciones: El texto a eliminar no debe exceder el tamaño de la cadena aux
+*/
 void limpiarLinea(int x, int y){
 	char aux [] = "          ";
 	MoverCursor(x-5,y);

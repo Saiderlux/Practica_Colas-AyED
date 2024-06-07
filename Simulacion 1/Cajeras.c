@@ -10,17 +10,14 @@ DESCRIPCIÓN: Simulación de un supermercado
 OBSERVACIONES: Una vez que ya se atendieron a más de 100 personas y no hay
 	gente formada en las cajas puede cerrar la tienda. Mientras no se cierre
 	la tienda, las personas podrán seguir llegando a las cajas.
-	
-	Para compilar es necesario estar en un entorno capaz de leer caracteres
-	
 
 COMPILACIÓN: 
 Windows (en Windows Terminal):
 	CHCP 65001
 	gcc Cajeras.c formato.c presentacionWin/Lin.c TadColaDin.c -o cajeras
 Linux:
-	
-	
+	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8)
+		&& gcc Cajeras.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
 */
 
 // LIBRERÍAS
@@ -28,7 +25,6 @@ Linux:
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-//#include "TADCola/TADColaEst.h"     //Si se usa la implemtentación dinámica (TADColaDin.c)
 #include "TADColaDin.h"    //Si se usa la implemtentación estática (TADColaEst.c|TADColaEstCirc.c)
 #include "formato.h"
 #include "presentacion.h"
@@ -137,6 +133,7 @@ int main(void)
     
     return 0;
 }
+
 //******************************************************************************************************
 //	FUNCIONES
 //******************************************************************************************************
