@@ -112,7 +112,7 @@ int main(void)
 		if (cajasVacias > 0) {
 			fila = arrAux[rand() % cajasVacias]; //Fila vacia aleatoria a la que se manda un cliente// elije aleatoriamente entre la cantidad de cajas vacias. Despues, accede a la posicion de esta para saber cual es esa caja (el indice i guardado) 
 			//Verificamos si hay clientes y su prioridad
-			if(!Empty(&clientes[0]) && bandera==0 && bandera2==1 ){//clientes
+			if(!Empty(&clientes[0]) && ((bandera==0 && bandera2==1) || Empty(&clientes[2]))){//clientes
 				e = Dequeue(&clientes[0]);
 				Desencolar(&clientes[0], calcularPosicionX(1,3), POS_Y_CLIENTES);
 				Queue(&cajeros[fila], e);
