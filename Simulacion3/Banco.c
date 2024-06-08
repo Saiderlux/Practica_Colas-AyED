@@ -44,6 +44,8 @@ int colocarCajas(int i, int x, int y);
 //******************************************************************************************************
 int main(void)
 {
+	BorrarPantalla();
+	EsperarMiliSeg(2000);
 	int n, tiempo_atencion, tiempos_cliente[3];
 	unsigned int tiempo = 0;
 	unsigned int cliente = 0, contador2= 0;

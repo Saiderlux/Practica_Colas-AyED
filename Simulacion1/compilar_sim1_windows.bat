@@ -1,0 +1,1 @@
+gcc Cajeras.c formato.c presentacionWin.c TADColaDin.c -o supermercado

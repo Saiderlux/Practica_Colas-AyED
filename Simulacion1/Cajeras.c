@@ -53,6 +53,8 @@ int clientesEnColas(cola cajera[], int n);
 //******************************************************************************************************
 int main(void)
 {
+	BorrarPantalla();
+	EsperarMiliSeg(2000);
     char nombre[100];
     int n, tiempo_cliente;
     unsigned int tiempo = 0;
@@ -131,6 +133,10 @@ int main(void)
         }
     }
     
+	for(i = 0; i < n;i++){
+		Destroy(&cajera[i]);
+	}
+	EsperarMiliSeg(7000);
     return 0;
 }
 

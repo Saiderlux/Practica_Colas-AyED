@@ -61,6 +61,7 @@ int main() {
     // Ingresar los procesos
 	
 	BorrarPantalla();
+	EsperarMiliSeg(2000);
 	
     while (mas_procesos) {
         mas_procesos=ingresar_proceso(&listos);
@@ -113,6 +114,7 @@ int main() {
     Destroy(&listos);
     Destroy(&terminados);
 
+	EsperarMiliSeg(7000);
     return 0;
 }
 

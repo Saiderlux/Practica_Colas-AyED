@@ -1,0 +1,1 @@
+gcc Banco.c formato.c presentacionWin.c TADColaDin.c -o banco

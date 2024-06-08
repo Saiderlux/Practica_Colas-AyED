@@ -1,0 +1,1 @@
+gcc SimulacionSO.c formato.c presentacionWin.c TADColaDin.c -o simulacionSO
