@@ -1,7 +1,7 @@
 /*
 Main en general de las imulaciones
 
-compilar gcc mnain.c presentacionWin.c -o main.execl
+compilar gcc main.c presentacionWin.c -o main.execl
 Solo funciona en Windows por ahora
 
 */
@@ -18,6 +18,7 @@ void transicion_supermercado();
 void transicion_banco();
 void transicion_SO();
 void mostrarMenu();
+void imagen_menu();
 
 //******************************************************************************************************
 //	MAIN
@@ -34,7 +35,7 @@ int main() {
     do {
         mostrarMenu();
         scanf("%d", &opcion);
-
+		BorrarPantalla();
         switch (opcion) {
             case 1:
 				EsperarMiliSeg(2000);
@@ -121,6 +122,50 @@ void dibujarLogoESCOM() {
     }
 }
 
+void imagen_menu() {
+	MoverCursor(75-31,0);
+	const char *logo[] = {
+		"       EgDQ:    ii         u2i       .5Xj      .L:       .BgdB         Y2Y",
+		"     .B.   B   BLvB.      BL DD     rB7:BB... IBiBq      B.  rB      rBr.XB",
+		"  :riBD:r7iBPiBB  BBir7L7SB:iUBqdMDdBPv21bqEPPBqLZBZZgbXBB:r: Bi     B:   QI....",
+		" BBrrBY:777i7iBQ:77vuJjYviBs.....   B.        Bi     .. 7Q.iYsXPggRDXQB752qPKqESBr",
+		" 2B  gX        B          rB        7B        .B         DM           B         dB",
+		"  B   B1v      :BXE:       ZBB1      KBBU      1BQ7       KQBQv       :BBv      qQ",
+		"  B.  vBBB      .BBB       7BB2       BBQ      .QB:        iQBI        BBq      SB",
+		"  B:   PQ:        .                                                             PR",
+		"  Br                                                                            Zg",
+		"  B7                                            	  /  			    QP",
+		"  B7                     |\\  /|  |¯¯¯¯¯¯  |\\    | |     |                       B5",
+		"  B:                     | \\/ |  |        | \\   | |     |                       Bv",
+		"  B:                     |    |  |---     |  \\  | |     |                       Bi",
+		"  B                      |    |  |        |   \\ | |     |                       B",
+		"  B                      |    |  |______  |    \\| |_____|                       B",
+		" .B                                                                            .B",
+		" rB                                                                            iQ",
+		" SB                                                                            vB",
+		" BX                                                                            5B",
+		" Br                                                                            dR",
+		" B.                                                                            Rb",
+		" B                                                                             Qq",
+		".B                                                                             BX",
+		"vB                                                                             RP",
+		"XB                                                                             DD",
+		"RP                                                                             SQ",
+		"BS                                                                             2B",
+		"BJ                                                                             LB",
+		"BJ                                                                             7B",
+		"BJ                                                                             rB",
+		"B2                                                                             iQ",
+		"BX                                                                             iB",
+		".PbdgZggRgQgRggZEK2vr::.....:i7jKbDgQMRgMgRgMgRgRgMZDbbqq5XIS5KqdEgDRgMDZbbKKKZB",
+		"                                                                        .::ii:."};
+    
+    for (int i = 0; i < 33; i++) {
+		EsperarMiliSeg(50);
+		MoverCursor(75-31,i);
+        printf("%s\n", logo[i]);
+    }
+}
 
 void transicion_SO() {
 	MoverCursor(75-31,0);
@@ -268,10 +313,16 @@ void transicion_supermercado() {
 
 
 void mostrarMenu() {
-    printf("Simulaciones con el TAD Cola:\n");
+	int y=20;
+	imagen_menu();
+	MoverCursor(70,y);
     printf("1. Supermercado\n");
+	MoverCursor(70,y+2);
     printf("2. Procesos en el sistema operativo\n");
+	MoverCursor(70,y+4);
     printf("3. Banco\n");
+	MoverCursor(70,y+6);
     printf("4. Salir\n");
+	MoverCursor(70,y+8);
     printf("Seleccione una opción: ");
 }
