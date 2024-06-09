@@ -127,7 +127,6 @@ int main(void)
 				Desencolar(&clientes[0], calcularPosicionX(1,3), POS_Y_CLIENTES);
 				Queue(&cajeros[fila], e);
 				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
-				//printf("Se mando un C. del banco a %d", fila);
 				contador2=0;
 				bandera2=0;
 				if((cliente++)==5)
@@ -138,7 +137,6 @@ int main(void)
 				Desencolar(&clientes[2], calcularPosicionX(3,3), POS_Y_CLIENTES);
 				Queue(&cajeros[fila], e);
 				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
-				//printf("Se mando un C. preferente a %d", fila);
 				if((cliente++)==5)
 					bandera=1;
 				if((contador2++)==3) bandera2=1;
@@ -150,7 +148,6 @@ int main(void)
 				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
 				bandera=0;
 				cliente=0;
-				//printf("Se mando un usuario a %d", fila);
 			}
 			
 		}
@@ -158,8 +155,6 @@ int main(void)
 		//Verificamos si puede llegar algún cliente a la cola
 		for(i = 0; i<3; i++){
 			if(tiempo % (tiempos_cliente[i] / 10) == 0){
-				//*cliente++;
-				//*if(cliente > 5) cliente == 0;
 				nclientes[i]++;
 				char str[10];
 				if(i==0) strcpy(str, "C:");
