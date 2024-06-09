@@ -50,8 +50,6 @@ void limpiar_buffer();
 //******************************************************************************************************
 int main() {
 	setlocale(LC_ALL, "es_ES.UTF-8");
-
-	//char aux[],auxL[],auxT[]; MARCABA ERROR AL COMPILAR, SE PUEDE HACER ESTO PERO HAY QUE COLOCARLE UN VALOR A CADA ARREGLO O DE UNA VEZ INICIALIZARLO DESDE AQUÍ
 	int mas_procesos = 1, i;
 
     // Inicializar las colas
