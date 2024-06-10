@@ -216,3 +216,4 @@ int colocarCajas(int i, int x, int y){
 	MoverCursor(x-((int)strlen(aux)/2), y-1);
 	printf("%s", aux);
 }
+ 
