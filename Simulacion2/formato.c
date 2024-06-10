@@ -204,7 +204,7 @@ void Desencolar(cola * c, int x){//Desencolar (Dequeue): Recibe una cola y recor
 			//diseño de caja
 			MoverCursor(x-21,y);
 			printf("┌─────────────────────────────────────────┐");
-			for(i=0, j=y+1; i < TAM_FILA; i++, j++){
+			for(i=0, j=y+1; i < 4; i++, j++){
 				MoverCursor(x-21,j);
 				printf("│");
 				MoverCursor(x+21,j);
@@ -363,7 +363,7 @@ void MostrarCola(cola * c, int x){
 			y+=TAM_FILA;
 		}
 
-		int resultado = tamano - DEFAULT + 1;
+		int resultado = tamano - 6 + 1;
 		sprintf(resultado_str, "%d", resultado);
 		strcpy(aux, "+ ");
 		strcat(aux, resultado_str);

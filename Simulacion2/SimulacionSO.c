@@ -111,7 +111,17 @@ int main() {
 	char aux[] = "PROCESOS TERMINADOS:";
 	MoverCursor(POS_PROCESO - ((int)strlen(aux)/2), 4);
 	printf("%s", aux);
-	MostrarCola(&terminados, POS_PROCESO);
+	int tam_cola = Size(&terminados);
+	if(tam_cola > 5){
+		for(i = 0; i <= tam_cola - 5; i++){
+			MostrarCola(&terminados, POS_PROCESO);
+			if(i == tam_cola-5)	limpiarLinea(POS_PROCESO, 36);
+			EsperarMiliSeg(4000);
+			Dequeue(&terminados);
+		}
+	}else{
+		MostrarCola(&terminados, POS_PROCESO);
+	}
 	
     // Liberar las colas
     Destroy(&listos);
