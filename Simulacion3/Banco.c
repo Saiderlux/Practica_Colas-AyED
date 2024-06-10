@@ -31,8 +31,8 @@ Linux:
 //DEFINICION DE CONSTANTES
 #define TIEMPO_BASE	200 // Tiempo base en ms
 #define POS_Y_CAJAS 3 // Posición en Y en la que se imprimen los cajeros
-#define POS_Y_CLIENTES 7 // Posición en Y en la que se imprimen los clientes
-#define TAM_MAX_X 100 // Tamaño de la pantalla en X
+#define POS_Y_CLIENTES 12 // Posición en Y en la que se imprimen los clientes
+#define TAM_MAX_X 150 // Tamaño de la pantalla en X
 #define COLOR_CAJAS "\x1b[36m" // Código ANSI para color celeste
 #define COLOR_RESET "\x1b[0m"  // Código ANSI para restablecer el color a blanco
 #define COLOR_FILAS "\x1b[37;1m" // Color gris claro para las filas
@@ -132,7 +132,6 @@ int main(void)
 				Desencolar(&clientes[0], calcularPosicionX(1,3), POS_Y_CLIENTES);
 				Queue(&cajeros[fila], e);
 				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
-				//printf("Se mando un C. del banco a %d", fila);
 				contador2=0;
 				bandera2=0;
 				if((cliente++)==5)
@@ -143,7 +142,6 @@ int main(void)
 				Desencolar(&clientes[2], calcularPosicionX(3,3), POS_Y_CLIENTES);
 				Queue(&cajeros[fila], e);
 				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
-				//printf("Se mando un C. preferente a %d", fila);
 				if((cliente++)==5)
 					bandera=1;
 				if((contador2++)==3) bandera2=1;
@@ -155,7 +153,6 @@ int main(void)
 				Encolar(&cajeros[fila], calcularPosicionX(fila+1, n), POS_Y_CAJAS);
 				bandera=0;
 				cliente=0;
-				//printf("Se mando un usuario a %d", fila);
 			}
 			
 		}
@@ -163,8 +160,6 @@ int main(void)
 		//Verificamos si puede llegar algún cliente a la cola
 		for(i = 0; i<3; i++){
 			if(tiempo % (tiempos_cliente[i] / 10) == 0){
-				//*cliente++;
-				//*if(cliente > 5) cliente == 0;
 				nclientes[i]++;
 				char str[10];
 				if(i==0) strcpy(str, "C:");
@@ -247,7 +242,7 @@ void imprimirFila(int x, int y, int tipo_fila) {
     MoverCursor(x - strlen(fila) / 2, y);
     printf(COLOR_FILAS "╔═");
     printf("%-*s", strlen(fila) + 2, "");
-    printf("═╗" COLOR_RESET);
+    printf(" ═╗" COLOR_RESET);
 
     MoverCursor(x - strlen(fila) / 2, y + 1);
     printf(COLOR_FILAS "║" COLOR_RESET " %s %s" COLOR_FILAS " ║" COLOR_RESET, emoji, fila);
@@ -255,5 +250,5 @@ void imprimirFila(int x, int y, int tipo_fila) {
     MoverCursor(x - strlen(fila) / 2, y + 2);
     printf(COLOR_FILAS "╚═");
     printf("%-*s", strlen(fila) + 2, "");
-    printf("═╝" COLOR_RESET);
+    printf(" ═╝" COLOR_RESET);
 }

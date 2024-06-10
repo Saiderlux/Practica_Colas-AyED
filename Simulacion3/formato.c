@@ -23,7 +23,7 @@ OBSERVACIONES: Se hace uso de caracteres especiales
 #define TRUE	1
 #define FALSE	0
 #define DEFAULT	5
-#define TAM_FILA	2
+#define TAM_FILA	5
 #define INICIO_Y 5
 
 //DEFINICIONES DE TIPOS DE DATO
@@ -134,3 +134,4 @@ void limpiarLinea(int x, int y){
 	MoverCursor(x-5,y);
 	printf("%s", aux);
 }
+
