@@ -14,10 +14,10 @@ OBSERVACIONES: Una vez que ya se atendieron a más de 100 personas y no hay
 COMPILACIÓN: 
 Windows (en Windows Terminal):
 	CHCP 65001
-	gcc Cajeras.c formato.c presentacionWin/Lin.c TadColaDin.c -o cajeras
+	gcc Cajeras.c formato.c presentacionWin.c TadColaDin.c -o supermercado
 Linux:
-	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8)
-		&& gcc Cajeras.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
+	sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8
+		&& gcc Cajeras.c formato.c presentacionLin.c TADColaDin.c -o supermercado
 */
 
 // LIBRERÍAS

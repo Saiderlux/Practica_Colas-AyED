@@ -13,10 +13,10 @@ OBSERVACIONES: Se tienen tres tipos de clientes cada uno con diferente prioridad
 COMPILACIÓN: 
 Windows (en Windows Terminal):
 	CHCP 65001
-	gcc Banco.c formato.c presentacionWin/Lin.c TadColaDin.c -o banco
+	gcc Banco.c formato.c presentacionWin.c TadColaDin.c -o banco
 Linux:
 	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8)
-		&& gcc Banco.c formato.c presentacion(Win/Lin).c TADColaDin.c -o banco
+		&& gcc Banco.c formato.c presentacionLin.c TADColaDin.c -o banco
 */
 
 //LIBRERAS

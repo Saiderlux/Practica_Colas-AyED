@@ -21,7 +21,7 @@ OBSERVACIONES: Se hace uso de caracteres especiales
 // DEFINICIONES DE CONSTANTES
 #define TRUE	1
 #define FALSE	0
-#define DEFAULT	5
+#define DEFAULT	10
 #define TAM_FILA	2
 #define INICIO_Y 5
 
