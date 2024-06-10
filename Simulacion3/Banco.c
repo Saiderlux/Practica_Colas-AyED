@@ -29,7 +29,7 @@ Linux:
 #include "formato.h"
 
 //DEFINICION DE CONSTANTES
-#define TIEMPO_BASE	200 // Tiempo base en ms
+#define TIEMPO_BASE	10 // Tiempo base en ms
 #define POS_Y_CAJAS 3 // Posición en Y en la que se imprimen los cajeros
 #define POS_Y_CLIENTES 12 // Posición en Y en la que se imprimen los clientes
 #define TAM_MAX_X 150 // Tamaño de la pantalla en X

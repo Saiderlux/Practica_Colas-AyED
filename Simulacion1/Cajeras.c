@@ -30,7 +30,7 @@ Linux:
 #include "presentacion.h"
 
 // DEFINICIÓN DE CONSTANTES
-#define TIEMPO_BASE    200    // Tiempo base en ms
+#define TIEMPO_BASE    10    // Tiempo base en ms
 #define TAM_MAX_X    150    // Tamaño de la pantalla en X
 #define Y_CAJAS    3    // Línea de las cajas
 #define CLIENTES_OBJETIVO 100 // Número de clientes objetivo
