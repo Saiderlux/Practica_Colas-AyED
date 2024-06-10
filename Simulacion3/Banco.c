@@ -33,11 +33,14 @@ Linux:
 #define POS_Y_CAJAS 3 // Posición en Y en la que se imprimen los cajeros
 #define POS_Y_CLIENTES 7 // Posición en Y en la que se imprimen los clientes
 #define TAM_MAX_X 100 // Tamaño de la pantalla en X
+#define COLOR_CAJAS "\x1b[36m" // Código ANSI para color celeste
+#define COLOR_RESET "\x1b[0m"  // Código ANSI para restablecer el color a blanco
+#define COLOR_FILAS "\x1b[37;1m" // Color gris claro para las filas
 
 // DECLARACIÓN DE FUNCIONES
 int calcularPosicionX(int columna, int n_columnas);
 int colocarCajas(int i, int x, int y);
-
+void imprimirFila(int x, int y, int tipo_fila);
 
 //******************************************************************************************************
 //	MAIN
@@ -92,7 +95,9 @@ int main(void)
 	}
 	
 	for(i=1;i<=3;i++){ //Imprimir las cajas
-		colocarCajas(i, calcularPosicionX(i,3), 9);
+		imprimirFila(calcularPosicionX(1, 3), POS_Y_CLIENTES, 0); // Clientes del banco
+		imprimirFila(calcularPosicionX(2, 3), POS_Y_CLIENTES, 1); // Usuarios del banco
+		imprimirFila(calcularPosicionX(3, 3), POS_Y_CLIENTES, 2); // Clientes preferentes
 	}
 	
 	int cajasVacias;
@@ -207,13 +212,48 @@ Observaciones: El usuario no debe de excederse en cajas de más de 2 digitos
 	Realmente se imprime en y-1, debido a que se considera que en esa posición empiezan
 	las colas 
 */
-int colocarCajas(int i, int x, int y){
-	char aux[20], resultado_str[3];
-	sprintf(resultado_str, "%d", i);
-	strcpy(aux, "[ ");
-	strcat(aux, resultado_str);
-	strcat(aux, " ]");
-	MoverCursor(x-((int)strlen(aux)/2), y-1);
-	printf("%s", aux);
+int colocarCajas(int i, int x, int y) {
+    char aux[20];
+    sprintf(aux, "🟢👨‍💼%d", i);
+    MoverCursor(x - ((int)strlen(aux) / 2), y);
+    printf(COLOR_CAJAS "┌────────┐" COLOR_RESET);
+    MoverCursor(x - ((int)strlen(aux) / 2), y + 1);
+    printf(COLOR_CAJAS "│%s│" COLOR_RESET, aux);
+    MoverCursor(x - ((int)strlen(aux) / 2), y + 2);
+    printf(COLOR_CAJAS "└────────┘" COLOR_RESET);
 }
- 
+
+
+
+void imprimirFila(int x, int y, int tipo_fila) {
+    char fila[30]; // Aumentar el tamaño del arreglo
+    char emoji[5]; // Aumentar el tamaño del arreglo
+
+    switch (tipo_fila) {
+        case 0:
+            strncpy(emoji, "💼", sizeof(emoji)); // Utilizar strncpy para evitar desbordamiento
+            strncpy(fila, "Clientes del banco", sizeof(fila));
+            break;
+        case 1:
+            strncpy(emoji, "👤", sizeof(emoji));
+            strncpy(fila, "Usuarios del banco", sizeof(fila));
+            break;
+        case 2:
+            strncpy(emoji, "👑", sizeof(emoji));
+            strncpy(fila, "Clientes preferentes", sizeof(fila));
+            break;
+    }
+
+    MoverCursor(x - strlen(fila) / 2, y);
+    printf(COLOR_FILAS "╔═");
+    printf("%-*s", strlen(fila) + 2, "");
+    printf("═╗" COLOR_RESET);
+
+    MoverCursor(x - strlen(fila) / 2, y + 1);
+    printf(COLOR_FILAS "║" COLOR_RESET " %s %s" COLOR_FILAS " ║" COLOR_RESET, emoji, fila);
+
+    MoverCursor(x - strlen(fila) / 2, y + 2);
+    printf(COLOR_FILAS "╚═");
+    printf("%-*s", strlen(fila) + 2, "");
+    printf("═╝" COLOR_RESET);
+}
