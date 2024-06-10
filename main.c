@@ -1,7 +1,7 @@
 /*
 Main en general de las imulaciones
 
-compilar gcc main.c presentacionWin.c -o main.execl
+compilar gcc main.c presentacionWin.c -o main
 Solo funciona en Windows por ahora
 
 */
@@ -12,6 +12,7 @@ Solo funciona en Windows por ahora
 #include <string.h>
 #include "presentacion.h"
 #include <locale.h>
+#define ubi 75
 
 void dibujarLogoESCOM();
 void transicion_supermercado();
@@ -117,13 +118,13 @@ void dibujarLogoESCOM() {
     
     for (int i = 0; i < 37; i++) {
 		EsperarMiliSeg(50);
-		MoverCursor(75-50,i);
+		MoverCursor(ubi-50,i);
         printf("%s", logo[i]);
     }
 }
 
 void imagen_menu() {
-	MoverCursor(75-31,0);
+	MoverCursor(ubi-31,4);
 	const char *logo[] = {
 		"       EgDQ:    ii         u2i       .5Xj      .L:       .BgdB         Y2Y",
 		"     .B.   B   BLvB.      BL DD     rB7:BB... IBiBq      B.  rB      rBr.XB",
@@ -162,13 +163,13 @@ void imagen_menu() {
     
     for (int i = 0; i < 33; i++) {
 		EsperarMiliSeg(50);
-		MoverCursor(75-31,i);
+		MoverCursor(ubi-31,i);
         printf("%s\n", logo[i]);
     }
 }
 
 void transicion_SO() {
-	MoverCursor(75-31,0);
+	MoverCursor(ubi-31,0);
 	const char *logo[] = {
 		"                               ..                              ",
 		"                           :QBBBBBQQ                           ",
@@ -207,7 +208,7 @@ void transicion_SO() {
     
     for (int i = 0; i < 33; i++) {
 		EsperarMiliSeg(50);
-		MoverCursor(75-31,i);
+		MoverCursor(ubi-31,i);
         printf("%s\n", logo[i]);
     }
 }
@@ -256,14 +257,14 @@ void transicion_banco() {
     
     for (int i = 0; i < 37; i++) {
 		EsperarMiliSeg(50);
-		MoverCursor(75-31,i);
+		MoverCursor(ubi-31,i);
         printf("%s\n", logo[i]);
     }
 }
 
 
 void transicion_supermercado() {
-	MoverCursor(75-31,0);
+	MoverCursor(ubi-31,0);
     const char *logo[] = {
 		"                   MBBQB                                       ",
 		"                   .. BBr.....:.........                       ",
@@ -315,14 +316,14 @@ void transicion_supermercado() {
 void mostrarMenu() {
 	int y=20;
 	imagen_menu();
-	MoverCursor(70,y);
+	MoverCursor(ubi-5,y);
     printf("1. Supermercado\n");
-	MoverCursor(70,y+2);
+	MoverCursor(ubi-5,y+2);
     printf("2. Procesos en el sistema operativo\n");
-	MoverCursor(70,y+4);
+	MoverCursor(ubi-5,y+4);
     printf("3. Banco\n");
-	MoverCursor(70,y+6);
+	MoverCursor(ubi-5,y+6);
     printf("4. Salir\n");
-	MoverCursor(70,y+8);
+	MoverCursor(ubi-5,y+8);
     printf("Seleccione una opción: ");
 }

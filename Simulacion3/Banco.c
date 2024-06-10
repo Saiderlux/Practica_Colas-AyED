@@ -15,7 +15,7 @@ Windows (en Windows Terminal):
 	CHCP 65001
 	gcc Banco.c formato.c presentacionWin.c TadColaDin.c -o banco
 Linux:
-	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8)
+	sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8
 		&& gcc Banco.c formato.c presentacionLin.c TADColaDin.c -o banco
 */
 
@@ -114,8 +114,6 @@ int main(void)
 				if(tiempo % (tiempo_atencion / 10) == 0){// si ya paso el tiempo de atencion, se remueve a la persona que se estaba atendiendo
 					e = Dequeue(&cajeros[i]);
 					limpiarLinea(calcularPosicionX(i+1, n), POS_Y_CAJAS);
-					//Desencolar(&cajeros[i], calcularPosicionX(i+1, n), POS_Y_CAJAS);
-					//printf("Se atendio a %d\n", e.n);
 				}
 			}else{ // si hay cajas vacias, debemos saber cuantas y cuales
 				arrAux[cajasVacias++] = i;// para saber cuantas, nos ayudamos de "cajasVacias";  para saber cuales, del arreglo arrAux 
