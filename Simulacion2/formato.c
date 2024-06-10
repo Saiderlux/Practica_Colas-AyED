@@ -317,24 +317,57 @@ void MostrarCola(cola * c, int x){
 	int i;
 	char aux[220], resultado_str[20];
 	proceso e;
-	for(i=1;i<=tamano;i++){
-		e = Element(c, i);
+	if(tamano<6)
+	{
+		for(i=1;i<=tamano;i++){
+			e = Element(c, i);
 
-		//Imprimir ID y NOMBRE
-		sprintf(aux, "%s: %s",e.id, e.nombre);
-		MoverCursor(x-((int)strlen(aux)/2),y);
-		printf("%s", aux);
+			//Imprimir ID y NOMBRE
+			sprintf(aux, "%s: %s",e.id, e.nombre);
+			MoverCursor(x-((int)strlen(aux)/2),y);
+			printf("%s", aux);
 
-		//Imprimir DESCRIPCIÓN
-		sprintf(aux, "Descripción: %s",e.descripcion);
-		MoverCursor(x-((int)strlen(aux)/2),y+1);
+			//Imprimir DESCRIPCIÓN
+			sprintf(aux, "Descripción: %s",e.descripcion);
+			MoverCursor(x-((int)strlen(aux)/2),y+1);
+			printf("%s", aux);
+			
+			//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
+			sprintf(aux, "Tiempo en total del proceso: %d",e.tiempo_real);
+			MoverCursor(x-((int)strlen(aux)/2),y+2);
+			printf("%s", aux);
+			x = auxX;
+			y+=TAM_FILA;
+		}
+	}
+	else
+	{
+		for(i=1;i<=DEFAULT;i++){
+			e = Element(c, i);
+
+			//Imprimir ID y NOMBRE
+			sprintf(aux, "%s: %s",e.id, e.nombre);
+			MoverCursor(x-((int)strlen(aux)/2),y);
+			printf("%s", aux);
+
+			//Imprimir DESCRIPCIÓN
+			sprintf(aux, "Descripción: %s",e.descripcion);
+			MoverCursor(x-((int)strlen(aux)/2),y+1);
+			printf("%s", aux);
+			
+			//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
+			sprintf(aux, "Tiempo en total del proceso: %d",e.tiempo_real);
+			MoverCursor(x-((int)strlen(aux)/2),y+2);
+			printf("%s", aux);
+			x = auxX;
+			y+=TAM_FILA;
+		}
+
+		int resultado = tamano - DEFAULT + 1;
+		sprintf(resultado_str, "%d", resultado);
+		strcpy(aux, "+ ");
+		strcat(aux, resultado_str);
+		MoverCursor(x-((int)strlen(aux)/2),y+TAM_FILA+1);
 		printf("%s", aux);
-		
-		//Imprimir TIEMPO RESTANTE (tiempo_ejecucion)
-		sprintf(aux, "Tiempo en total del proceso: %d",e.tiempo_real);
-		MoverCursor(x-((int)strlen(aux)/2),y+2);
-		printf("%s", aux);
-		x = auxX;
-		y+=TAM_FILA;
 	}
 }

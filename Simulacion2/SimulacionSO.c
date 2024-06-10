@@ -12,10 +12,10 @@ OBSERVACIONES: Una vez que ya se halla terminado el proceso, este se envia a la
 COMPILACIÓN: 
 Windows (en Windows Terminal):
 	CHCP 65001
-	gcc Cajeras.c formato.c presentacionWin/Lin.c TadColaDin.c -o cajeras
+	gcc SimulacionSO.c formato.c presentacionWin.c TadColaDin.c -o simulacionSO
 Linux:
-	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8) 
-		&& gcc simulacionSO.c formato.c presentacion(Win/Lin).c TADColaDin.c -o prueba
+	sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8
+		&& gcc SimulacionSO.c formato.c presentacionLin.c TADColaDin.c -o simulacionSO
 	
 */
 
@@ -83,6 +83,11 @@ int main() {
 		Desencolar(&listos, POS_COLA_LISTOS);
 		mostrarProceso(p);
 		p.tiempo_ejecucion--;
+		if(p.tiempo_ejecucion<0){
+			printf("\nSe produjo un error");
+			exit(1);
+			EsperarMiliSeg(1000);
+		}
 		p.tiempo_real++;
 		EsperarMiliSeg(1000);
 		if(p.tiempo_ejecucion==0){
@@ -153,6 +158,7 @@ int ingresar_proceso(cola *c) {
 	if(strlen(p.nombre)>45){
 		printf("\nNo se aceptan nombres con más de 45 carateres.");
 		exit(1);
+		EsperarMiliSeg(1000);
 	}
 	limpiar_buffer();
     printf("Ingrese el ID del proceso: ");
@@ -160,6 +166,7 @@ int ingresar_proceso(cola *c) {
 	if(strlen(p.id)>45){
 		printf("\nNo se aceptan ID con más de 45 carateres.");
 		exit(1);
+		EsperarMiliSeg(1000);
 	}
 	limpiar_buffer();
     printf("Ingrese la descripción del proceso: ");
@@ -167,10 +174,17 @@ int ingresar_proceso(cola *c) {
 	if(strlen(p.descripcion)>200){
 		printf("\nNo se acepta descripción con más de 200 carateres.");
 		exit(1);
+		EsperarMiliSeg(1000);
 	}
 	limpiar_buffer();
     printf("Ingrese el tiempo de ejecución del proceso (en segundos): ");
     scanf("%d", &p.tiempo_ejecucion);
+	if(p.tiempo_ejecucion<=0){
+		printf("\nTiempo inválido");
+		EsperarMiliSeg(1000);
+		exit(1);
+		EsperarMiliSeg(1000);
+	}
 	limpiar_buffer();
 	p.tiempo_real = Size(c);
 	printf("¿Ingresar otro proceso? (1 = Sí, 0 = No): ");
@@ -234,7 +248,7 @@ Observaciones: La transición va a depender de dos variables la anchura: tamX y 
 	tamY
 */
 void Transicion() {
-    int tamX = 150, tamY = 30, d, x, y;
+    int tamX = 150, tamY = 35, d, x, y;
 	//Imprimir asteriscos
     for ( d = 0; d < tamX + tamY - 1; d++) {
         for (x = 0; x <= d; x++) {
