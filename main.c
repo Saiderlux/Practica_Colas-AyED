@@ -31,6 +31,9 @@ int main() {
 	BorrarPantalla();
 	int opcion;
 
+	// Ejecutar el comando para que se pueda imprimir en la consola caracteres UTF-8
+    system("chcp 65001");
+
     do {
         mostrarMenu();
         scanf("%d", &opcion);
