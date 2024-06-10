@@ -92,15 +92,9 @@ int main(void)
     imprimirTitulo(nombre);
 
     // Imprimir las cajas
-<<<<<<< HEAD:Simulacion 1/Cajeras.c
-    for(i = 1; i <= n; i++){
-        colocarCajas(i, calcularPosicionX(i, n),0);
-    }
-=======
     for(i = 1; i <= n; i++)
         colocarCajas(i, calcularPosicionX(i, n),0);
     
->>>>>>> 7509770a0492a35767563c1a6300bec54e145baa:Simulacion1/Cajeras.c
 
     // Ciclo principal
     while (1)
@@ -123,14 +117,8 @@ int main(void)
             e.n = cliente;
             fila = rand() % n;
             Queue(&cajera[fila], e);
-<<<<<<< HEAD:Simulacion 1/Cajeras.c
-            Encolar(&cajera[fila], calcularPosicionX(fila + 1, n));
-          
-    }
-=======
             Encolar(&cajera[fila], calcularPosicionX(fila + 1, n));  
         }
->>>>>>> 7509770a0492a35767563c1a6300bec54e145baa:Simulacion1/Cajeras.c
 
 
         // Verificar condición de término
@@ -184,33 +172,6 @@ Observaciones: El usuario no debe de excederse en cajas de más de 2 digitos, as
 	n colocar un valor valido (0: abierto, cualquier otro: cerrado)
 */
 int colocarCajas(int i, int x, int n){
-<<<<<<< HEAD:Simulacion 1/Cajeras.c
-    if(n==0){
-        char aux[20], resultado_str[2];
-        sprintf(resultado_str, "%d", i);
-        strcpy(aux, "🙂🟢  ");
-        strcat(aux, resultado_str);
-        strcat(aux, " ");
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS-1);
-        printf(COLOR_CAJAS "┌────────┐" COLOR_RESET);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS);
-        printf(COLOR_CAJAS "│%s│" COLOR_RESET, aux);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS+1);
-        printf(COLOR_CAJAS "└────────┘" COLOR_RESET);
-    }else{
-        char aux[20], resultado_str[2];
-        sprintf(resultado_str, "%d", i);
-        strcpy(aux, "😴🔴  ");
-        strcat(aux, resultado_str);
-        strcat(aux, " ");
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS-1);
-        printf(COLOR_CAJAS "┌────────┐" COLOR_RESET);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS);
-        printf(COLOR_CAJAS "│%s│" COLOR_RESET, aux);
-        MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS+1);
-        printf(COLOR_CAJAS "└────────┘" COLOR_RESET);
-    }
-=======
 	char aux[20], resultado_str[3];
     sprintf(resultado_str, "%d", i);
 	if(n==0){
@@ -234,7 +195,6 @@ int colocarCajas(int i, int x, int n){
 	printf(COLOR_CAJAS "│%s│" COLOR_RESET, aux);
 	MoverCursor(x-((int)strlen(aux)/2), Y_CAJAS+1);
 	printf(COLOR_CAJAS "└────────┘" COLOR_RESET);
->>>>>>> 7509770a0492a35767563c1a6300bec54e145baa:Simulacion1/Cajeras.c
     
 }
 
