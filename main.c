@@ -20,6 +20,7 @@ void transicion_banco();
 void transicion_SO();
 void mostrarMenu();
 void imagen_menu();
+void dibujarLogoESCOM2();
 
 //******************************************************************************************************
 //	MAIN
@@ -28,7 +29,7 @@ int main() {
 	setlocale(LC_ALL, "es_ES.UTF-8");
 	BorrarPantalla();
 	EsperarMiliSeg(2000);
-	dibujarLogoESCOM();
+	dibujarLogoESCOM2();
 	EsperarMiliSeg(2000);
 	BorrarPantalla();
 	int opcion;
@@ -60,7 +61,7 @@ int main() {
 			case 4:
                 printf("Saliendo...\n");
 				EsperarMiliSeg(2000);
-				dibujarLogoESCOM();
+				dibujarLogoESCOM2();
             break;
             default:
                 printf("Opción no válida. Por favor, intente de nuevo.\n");
@@ -121,6 +122,12 @@ void dibujarLogoESCOM() {
 		MoverCursor(ubi-50,i);
         printf("%s", logo[i]);
     }
+}
+
+void dibujarLogoESCOM2() {
+    MoverCursor(ubi,10);
+	system("\".\\Muestra_Img\\mostrarimagen.bat\"");
+    
 }
 
 void imagen_menu() {
