@@ -8,7 +8,6 @@
 void displayImage(const char *filename) {
     int width, height, channels;
     unsigned char *image = stbi_load(filename, &width, &height, &channels, 0);
-    cambiarTamanoConsola(width, height);
     if (image != NULL) {
         // Mostrar la imagen, por ejemplo, imprimir los primeros píxeles
         for (int y = 0; y < height; y++) {
