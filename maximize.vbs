@@ -1,3 +1,3 @@
 Set objShell = CreateObject("WScript.Shell")
-objShell.SendKeys "{F11}"
 
+objShell.SendKeys "{F11}"

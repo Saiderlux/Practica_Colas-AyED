@@ -62,6 +62,7 @@ int main() {
 			case 4:
                 printf("Saliendo...\n");
 				EsperarMiliSeg(2000);
+				BorrarPantalla();
 				//dibujarLogoESCOM();
 				dibujarLogoESCOM2();
             break;
