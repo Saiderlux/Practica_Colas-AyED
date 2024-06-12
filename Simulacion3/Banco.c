@@ -15,7 +15,7 @@ Windows (en Windows Terminal):
 	CHCP 65001
 	gcc Banco.c formato.c presentacionWin.c TadColaDin.c -o banco
 Linux:
-	(chcp 65001/sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8)
+	sudo locale-gen es_ES.UTF-8 && sudo update-locale LANG=es_ES.UTF-8
 		&& gcc Banco.c formato.c presentacionLin.c TADColaDin.c -o banco
 */
 
@@ -114,8 +114,6 @@ int main(void)
 				if(tiempo % (tiempo_atencion / 10) == 0){// si ya paso el tiempo de atencion, se remueve a la persona que se estaba atendiendo
 					e = Dequeue(&cajeros[i]);
 					limpiarLinea(calcularPosicionX(i+1, n), POS_Y_CAJAS);
-					//Desencolar(&cajeros[i], calcularPosicionX(i+1, n), POS_Y_CAJAS);
-					//printf("Se atendio a %d\n", e.n);
 				}
 			}else{ // si hay cajas vacias, debemos saber cuantas y cuales
 				arrAux[cajasVacias++] = i;// para saber cuantas, nos ayudamos de "cajasVacias";  para saber cuales, del arreglo arrAux 
@@ -219,7 +217,15 @@ int colocarCajas(int i, int x, int y) {
 }
 
 
-
+/*
+void imprimirFila(int x, int y, int tipo_fila);
+Descripción: Imprime el formato de filas en la posición (x,y)
+Recibe: int x (posición en x en la que se imprimira la caja),
+		int y (posición en Y en la que se imprimira la caja),
+		int tipo_fila (tipo de fila a imprimir)
+Devuelve: void
+Observaciones: Solo hay tres tipos de filas, por lo que el tipo_fila solo puede ser 0, 1 o 2
+*/
 void imprimirFila(int x, int y, int tipo_fila) {
     char fila[30]; // Aumentar el tamaño del arreglo
     char emoji[5]; // Aumentar el tamaño del arreglo
