@@ -111,7 +111,17 @@ int main() {
 	char aux[] = "PROCESOS TERMINADOS:";
 	MoverCursor(POS_PROCESO - ((int)strlen(aux)/2), 4);
 	printf("%s", aux);
-	MostrarCola(&terminados, POS_PROCESO);
+	int tam_cola = Size(&terminados);
+	if(tam_cola > 5){
+		for(i = 0; i <= tam_cola - 5; i++){
+			MostrarCola(&terminados, POS_PROCESO);
+			if(i == tam_cola-5)	limpiarLinea(POS_PROCESO, 36);
+			EsperarMiliSeg(4000);
+			Dequeue(&terminados);
+		}
+	}else{
+		MostrarCola(&terminados, POS_PROCESO);
+	}
 	
     // Liberar las colas
     Destroy(&listos);
@@ -152,7 +162,7 @@ Observaciones: La cola debe de estar inicializada y el usuario debe
 */
 int ingresar_proceso(cola *c) {
     proceso p;
-	int aux;
+	int aux, i;
     printf("Ingrese el nombre del proceso: ");
     scanf("%[^\n]s", p.nombre);
 	if(strlen(p.nombre)>45){
@@ -162,11 +172,31 @@ int ingresar_proceso(cola *c) {
 	}
 	limpiar_buffer();
     printf("Ingrese el ID del proceso: ");
-    scanf("%s", p.id);
-	if(strlen(p.id)>45){
-		printf("\nNo se aceptan ID con más de 45 carateres.");
-		exit(1);
-		EsperarMiliSeg(1000);
+	int existe = 1;
+	while(existe){
+		scanf("%s", p.id);
+		if(strlen(p.id)>45){
+			printf("\nNo se aceptan ID con más de 45 carateres.");
+			exit(1);
+			EsperarMiliSeg(1000);
+		}else{
+			if(!Empty(c)){
+				for(i=1;i<=Size(c);i++){
+					if (strcmp(p.id, Element(c,i).id) == 0) {
+						borrarTexto(2,1);
+						MoverCursor(0,1);
+						printf("Ya existe un proceso con esa ID.\n");
+						printf("Vuelve a ingresar el ID: ");
+						existe = 1;
+						break;
+					} else {
+						existe = 0;
+					}
+				}
+			}else{
+				existe = 0;
+			}
+		}
 	}
 	limpiar_buffer();
     printf("Ingrese la descripción del proceso: ");
