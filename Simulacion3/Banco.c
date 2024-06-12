@@ -217,7 +217,15 @@ int colocarCajas(int i, int x, int y) {
 }
 
 
-
+/*
+void imprimirFila(int x, int y, int tipo_fila);
+Descripción: Imprime el formato de filas en la posición (x,y)
+Recibe: int x (posición en x en la que se imprimira la caja),
+		int y (posición en Y en la que se imprimira la caja),
+		int tipo_fila (tipo de fila a imprimir)
+Devuelve: void
+Observaciones: Solo hay tres tipos de filas, por lo que el tipo_fila solo puede ser 0, 1 o 2
+*/
 void imprimirFila(int x, int y, int tipo_fila) {
     char fila[30]; // Aumentar el tamaño del arreglo
     char emoji[5]; // Aumentar el tamaño del arreglo
