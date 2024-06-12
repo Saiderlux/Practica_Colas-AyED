@@ -30,6 +30,7 @@ int main() {
 	BorrarPantalla();
 	EsperarMiliSeg(2000);
 	dibujarLogoESCOM2();
+	//dibujarLogoESCOM();
 	EsperarMiliSeg(2000);
 	BorrarPantalla();
 	int opcion;
@@ -61,6 +62,7 @@ int main() {
 			case 4:
                 printf("Saliendo...\n");
 				EsperarMiliSeg(2000);
+				//dibujarLogoESCOM();
 				dibujarLogoESCOM2();
             break;
             default:
@@ -125,8 +127,7 @@ void dibujarLogoESCOM() {
 }
 
 void dibujarLogoESCOM2() {
-    MoverCursor(ubi,10);
-	system("\".\\Muestra_Img\\mostrarimagen.bat\"");
+	system("\".\\mostrarimagen.bat\"");
     
 }
 
@@ -142,7 +143,7 @@ void imagen_menu() {
 		"  B.  vBBB      .BBB       7BB2       BBQ      .QB:        iQBI        BBq      SB",
 		"  B:   PQ:        .                                                             PR",
 		"  Br                                                                            Zg",
-		"  B7                                            	  /  			    QP",
+		"  B7                                            	  /  	 	            QP",
 		"  B7                     |\\  /|  |¯¯¯¯¯¯  |\\    | |     |                       B5",
 		"  B:                     | \\/ |  |        | \\   | |     |                       Bv",
 		"  B:                     |    |  |---     |  \\  | |     |                       Bi",
