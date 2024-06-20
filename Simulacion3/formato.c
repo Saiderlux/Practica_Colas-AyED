@@ -25,6 +25,10 @@ OBSERVACIONES: Se hace uso de caracteres especiales
 #define DEFAULT	5
 #define TAM_FILA	5
 #define INICIO_Y 5
+#define COLOR_PREFERENTE "\x1b[33m"  // Color naranja
+#define COLOR_USUARIO "\x1b[34m"     // Color azul
+#define COLOR_CLIENTE "\x1b[32m"     // Color verde
+#define COLOR_RESET "\x1b[0m" // Código ANSI para restablecer el color a blanco
 
 //DEFINICIONES DE TIPOS DE DATO
 
@@ -43,13 +47,18 @@ Observaciones: La cola ya debe estar inicializada, la función depende de consta
 	un nuevo elemento)
 */
 void Encolar(cola * c, int x, int y){
-	int tamano = Size(c);
-	char aux[100], resultado_str[20];
-	if(tamano < DEFAULT){
-		y+=tamano * TAM_FILA;
-		sprintf(aux, "%s", Final(c).t_cliente);
-		MoverCursor(x-((int)strlen(aux)/2),y);
-	}else{
+    int tamano = Size(c);
+    char aux[100], resultado_str[20];
+    if(tamano < DEFAULT){
+        y+=tamano * TAM_FILA;
+        sprintf(aux, "%s", Final(c).t_cliente);
+        MoverCursor(x-((int)strlen(aux)/2),y);
+        
+        // Imprimir con color y emoji según el tipo de cliente
+        if (aux[0] == 'P') printf(COLOR_PREFERENTE "👑%s" COLOR_RESET, aux);
+        else if (aux[0] == 'U') printf(COLOR_USUARIO "👤%s" COLOR_RESET, aux);
+        else printf(COLOR_CLIENTE "💼%s" COLOR_RESET, aux);
+    }else{
 		y += DEFAULT*TAM_FILA;
 		limpiarLinea(x,y);
 		int resultado = tamano - DEFAULT+1;
@@ -72,20 +81,25 @@ Observaciones: La cola ya debe estar inicializada, la función depende de consta
 	un nuevo elemento)
 */
 void Desencolar(cola * c, int x,int y){
-	int auxX = x;
-	int tamano = Size(c);
-	int i;
-	char aux[100], resultado_str[20];
-	limpiarCola(x, y);
-	if(tamano < DEFAULT){
-		for(i=1;i<=tamano;i++){
-			y+=TAM_FILA;
-			sprintf(aux, "%s", Element(c, i).t_cliente);
-			MoverCursor(x-((int)strlen(aux)/2),y);
-			printf("%s", aux);
-			x = auxX;
-		}
-	}else{
+    int auxX = x;
+    int tamano = Size(c);
+    int i;
+    char aux[100], resultado_str[20];
+    limpiarCola(x, y);
+    if(tamano < DEFAULT){
+        for(i=1;i<=tamano;i++){
+            y+=TAM_FILA;
+            sprintf(aux, "%s", Element(c, i).t_cliente);
+            MoverCursor(x-((int)strlen(aux)/2),y);
+            
+            // Imprimir con color y emoji según el tipo de cliente
+            if (aux[0] == 'P') printf(COLOR_PREFERENTE "👑%s" COLOR_RESET, aux);
+            else if (aux[0] == 'U') printf(COLOR_USUARIO "👤%s" COLOR_RESET, aux);
+            else printf(COLOR_CLIENTE "💼%s" COLOR_RESET, aux);
+            
+            x = auxX;
+        }
+    }else{
 		for(i=1;i<DEFAULT;i++){
 			y+=TAM_FILA;
 			sprintf(aux, "%s", Element(c, i).t_cliente);
